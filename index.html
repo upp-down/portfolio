@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>周思霞 | Web前端开发工程师</title>
+  <meta name="description" content="周思霞的个人作品集 - Web前端开发工程师，专注于前端开发与UI设计">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== 导航栏 ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">ZSX</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+        <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+        <li><a href="#projects" class="nav-link" data-section="projects">Works</a></li>
+        <li><a href="#awards" class="nav-link" data-section="awards">Awards</a></li>
+        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== Hero 区 ===== -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-left fade-up">
+        <span class="hero-tag">Portfolio · 2025</span>
+        <h1 class="hero-name">
+          <span class="name-cn">周思霞</span>
+          <span class="name-en">Zhou Sixia</span>
+        </h1>
+        <p class="hero-title">Web Frontend Developer</p>
+        <p class="hero-desc">用代码构建体验，用设计传递温度。专注前端开发与UI设计，具备从设计稿到代码的完整落地能力。</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-value">3.9</span>
+            <span class="hero-stat-label">GPA / 4.0</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value">Top 1%</span>
+            <span class="hero-stat-label">Ranking</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value">1st</span>
+            <span class="hero-stat-label">National UI Award</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">
+            <span>View Works</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-text">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-right fade-up">
+        <div class="hero-visual">
+          <span>个人照片 / 视觉区</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint fade-up">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== 关于我 ===== -->
+  <section class="section about-section" id="about">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">About Me</span>
+        <h2 class="section-title">热爱代码，也热爱设计</h2>
+      </div>
+      <div class="about-inner">
+        <div class="about-text fade-up">
+          <p class="about-summary">
+            我是周思霞，广东医科大学信息管理与信息系统专业本科生，GPA 3.9/4.0，专业排名前1%。热衷于前端开发与UI设计，具备从设计稿到代码的完整落地能力。
+          </p>
+          <p class="about-detail">
+            曾获国家奖学金、蓝桥杯UI设计国赛一等奖等荣誉，拥有前端实习实战经验，能独立排查与修复Bug，善于跨角色沟通协作。我相信，好的前端开发不仅是写代码，更是用技术为用户创造美好的体验。
+          </p>
+        </div>
+        <div class="about-highlights fade-up">
+          <div class="highlight-item">
+            <span class="highlight-number">3.9 / 4.0</span>
+            <span class="highlight-text">GPA · 专业排名前1%</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">National 1st</span>
+            <span class="highlight-text">蓝桥杯UI设计赛道国赛一等奖</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">10+ Bugs</span>
+            <span class="highlight-text">前端实习期间独立修复</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">Team Lead</span>
+            <span class="highlight-text">大创项目团队负责人</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 专业技能 ===== -->
+  <section class="section skills-section" id="skills">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Skills</span>
+        <h2 class="section-title">我的技术栈</h2>
+      </div>
+      <div class="skills-inner fade-up">
+        <div class="skill-group">
+          <h3 class="skill-group-title">Frontend</h3>
+          <div class="skill-list">
+            <span class="skill-item">HTML5 / CSS3</span>
+            <span class="skill-item">Flex / Grid 布局</span>
+            <span class="skill-item">JavaScript (ES6+)</span>
+            <span class="skill-item">Vue3</span>
+            <span class="skill-item">TypeScript</span>
+            <span class="skill-item">uni-app</span>
+            <span class="skill-item">Element Plus</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">Design</h3>
+          <div class="skill-list">
+            <span class="skill-item">Figma</span>
+            <span class="skill-item">Photoshop</span>
+            <span class="skill-item">Illustrator</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">Other</h3>
+          <div class="skill-list">
+            <span class="skill-item">C 语言</span>
+            <span class="skill-item">Python</span>
+            <span class="skill-item">MySQL</span>
+            <span class="skill-item">Git / GitHub</span>
+            <span class="skill-item">DevTools 调试</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 作品集 ===== -->
+  <section class="section projects-section" id="projects">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Selected Works</span>
+        <h2 class="section-title">精选作品</h2>
+        <p class="section-desc">每个项目都是一次从0到1的创造过程</p>
+      </div>
+
+      <!-- 项目 01：海报设计 -->
+      <div class="project-entry fade-up">
+        <div class="project-cover-wrap">
+          <div class="project-cover">
+            <div class="project-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                <rect x="3" y="3" width="18" height="18" rx="1"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>海报设计作品</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <span class="project-number">01</span>
+          <span class="project-type">Poster Design</span>
+          <h3 class="project-title">中国古代物理知识科普设计</h3>
+          <p class="project-desc">以「弘扬中国古代物理知识」为核心选题，完成4张主题海报的绘制与视觉设计，统筹设计全流程。</p>
+          <div class="project-tags">
+            <span class="tag">海报设计</span>
+            <span class="tag">Photoshop</span>
+            <span class="tag">团队协作</span>
+          </div>
+          <div class="project-meta">
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              2025.04 — 2025.05
+            </span>
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              国赛二等奖
+            </span>
+          </div>
+          <div class="project-link">
+            <a href="poster.html" class="btn btn-accent btn-sm">
+              <span>View Project</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 项目 02：UI设计 -->
+      <div class="project-entry reverse fade-up">
+        <div class="project-cover-wrap">
+          <div class="project-cover">
+            <div class="project-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                <rect x="3" y="3" width="18" height="18" rx="1"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>UI设计作品</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <span class="project-number">02</span>
+          <span class="project-type">UI Design</span>
+          <h3 class="project-title">OK AI助手 · 儿童英语口语学习</h3>
+          <p class="project-desc">针对低龄儿童英语口语场景，打造AI助手「OK」趣味学习视觉体系，获蓝桥杯UI设计赛道国赛一等奖。</p>
+          <div class="project-tags">
+            <span class="tag">UI设计</span>
+            <span class="tag">Figma</span>
+            <span class="tag">设计系统</span>
+          </div>
+          <div class="project-meta">
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              2025.01 — 2025.04
+            </span>
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              国赛一等奖
+            </span>
+          </div>
+          <div class="project-link">
+            <a href="ui-design.html" class="btn btn-accent btn-sm">
+              <span>View Project</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 项目 03：前端项目 -->
+      <div class="project-entry fade-up">
+        <div class="project-cover-wrap">
+          <div class="project-cover">
+            <div class="project-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                <rect x="3" y="3" width="18" height="18" rx="1"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>小程序作品</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <span class="project-number">03</span>
+          <span class="project-type">Frontend Dev</span>
+          <h3 class="project-title">心理健康陪伴小程序</h3>
+          <p class="project-desc">面向大学生的心理健康陪伴小程序，主打「AI情绪感知+音乐疗愈+心情记录」，已完成MVP版本开发。</p>
+          <div class="project-tags">
+            <span class="tag">uni-app</span>
+            <span class="tag">Vue</span>
+            <span class="tag">小程序</span>
+            <span class="tag">团队管理</span>
+          </div>
+          <div class="project-meta">
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              2026.03 — 2026.04
+            </span>
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              大创项目 · 团队负责人
+            </span>
+          </div>
+          <div class="project-link">
+            <a href="mental-health.html" class="btn btn-accent btn-sm">
+              <span>View Project</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 荣誉奖项 ===== -->
+  <section class="section awards-section" id="awards">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Honors & Awards</span>
+        <h2 class="section-title">荣誉奖项</h2>
+      </div>
+      <div class="awards-inner fade-up">
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">国家奖学金</h4>
+            <span class="award-category">学业</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">校级</span>
+          <div class="award-content">
+            <h4 class="award-name">校长奖学金</h4>
+            <span class="award-category">学业</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">校级</span>
+          <div class="award-content">
+            <h4 class="award-name">连续两年综合奖学金一等奖</h4>
+            <span class="award-category">学业</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">蓝桥杯视觉设计赛UI赛道国赛一等奖</h4>
+            <span class="award-category">设计</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">计算机设计大赛平面设计赛道国赛二等奖</h4>
+            <span class="award-category">设计</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">SAS中国高校数据分析大赛国赛一等奖</h4>
+            <span class="award-category">数据</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">复旦杯全国英语词汇大赛三等奖</h4>
+            <span class="award-category">英语</span>
+          </div>
+        </div>
+        <div class="award-item">
+          <span class="award-badge">国家级</span>
+          <div class="award-content">
+            <h4 class="award-name">第三届全国大学生C语言程序设计大赛三等奖</h4>
+            <span class="award-category">编程</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 联系我 ===== -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="contact-left fade-up">
+          <div class="section-header">
+            <span class="section-label">Contact</span>
+            <h2 class="section-title">联系我</h2>
+          </div>
+          <p class="contact-text">无论是工作机会还是技术交流，都欢迎随时联系我。</p>
+          <div class="contact-cards">
+            <a href="mailto:3259958611@qq.com" class="contact-card">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div>
+                <span class="contact-label">Email</span>
+                <span class="contact-value">3259958611@qq.com</span>
+              </div>
+            </a>
+            <div class="contact-card">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div>
+                <span class="contact-label">Phone</span>
+                <span class="contact-value">135 7032 3172</span>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <div>
+                <span class="contact-label">WeChat</span>
+                <span class="contact-value">doudouoni6283</span>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <span class="contact-label">Location</span>
+                <span class="contact-value">广东 · 东莞</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-right fade-up">
+          <h3 class="contact-cta-title">Let's<br>Work<br>Together</h3>
+          <p class="contact-cta-desc">如果你对我的项目感兴趣，或者有合适的工作机会，期待与你交流。</p>
+          <a href="个人简历.pdf" download class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Download CV</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-text"><strong>周思霞</strong> · Web Frontend Developer · © 2025</p>
+      <button class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <span>Back to Top</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

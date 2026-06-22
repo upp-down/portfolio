@@ -1,0 +1,226 @@
+{
+  "personal": {
+    "name": "周思霞",
+    "nameEn": "Zhou Sixia",
+    "title": "Web前端开发工程师",
+    "tagline": "用代码构建体验，用设计传递温度",
+    "phone": "13570323172",
+    "wechat": "doudouoni6283",
+    "email": "3259958611@qq.com",
+    "location": "广东 · 东莞",
+    "school": "广东医科大学",
+    "major": "信息管理与信息系统",
+    "education": "本科（2027届）",
+    "gpa": "3.9/4.0",
+    "rank": "专业前1%",
+    "avatar": "待补充",
+    "resumePdf": "个人简历.pdf"
+  },
+
+  "about": {
+    "summary": "我是周思霞，广东医科大学信息管理与信息系统专业本科生，GPA 3.9/4.0，专业排名前1%。热衷于前端开发与UI设计，具备从设计稿到代码的完整落地能力。曾获国家奖学金、蓝桥杯UI设计国赛一等奖等荣誉，拥有前端实习实战经验，能独立排查与修复Bug，善于跨角色沟通协作。",
+    "highlights": [
+      "GPA 3.9/4.0，专业排名前1%",
+      "国家奖学金 + 校长奖学金获得者",
+      "蓝桥杯UI设计赛道国赛一等奖",
+      "前端实习实战经验，独立修复10+项Bug",
+      "大创项目团队负责人"
+    ]
+  },
+
+  "skills": {
+    "categories": [
+      {
+        "name": "前端开发",
+        "icon": "code",
+        "items": [
+          { "name": "HTML5/CSS3", "level": "精通" },
+          { "name": "Flex/Grid布局", "level": "精通" },
+          { "name": "JavaScript (ES6+)", "level": "熟悉" },
+          { "name": "Vue3", "level": "熟悉" },
+          { "name": "TypeScript", "level": "熟悉" },
+          { "name": "uni-app", "level": "熟悉" },
+          { "name": "Element Plus", "level": "熟悉" }
+        ]
+      },
+      {
+        "name": "设计工具",
+        "icon": "palette",
+        "items": [
+          { "name": "Figma", "level": "精通" },
+          { "name": "Photoshop", "level": "精通" },
+          { "name": "Illustrator", "level": "熟悉" }
+        ]
+      },
+      {
+        "name": "其他技能",
+        "icon": "tools",
+        "items": [
+          { "name": "C语言", "level": "了解" },
+          { "name": "Python", "level": "了解" },
+          { "name": "MySQL", "level": "了解" },
+          { "name": "Git/GitHub", "level": "了解" },
+          { "name": "DevTools调试", "level": "了解" }
+        ]
+      }
+    ]
+  },
+
+  "projects": [
+    {
+      "id": "poster",
+      "title": "中国古代物理知识科普设计",
+      "subtitle": "海报设计 · 国赛二等奖",
+      "type": "设计竞赛",
+      "time": "2025.04 - 2025.05",
+      "role": "团队负责人",
+      "tools": "Photoshop",
+      "cover": "待补充",
+      "tags": ["海报设计", "Photoshop", "团队协作"],
+      "brief": "以「弘扬中国古代物理知识」为核心选题，完成4张主题海报的绘制与视觉设计，统筹设计全流程。",
+      "description": "组建2人团队并任负责人，统筹设计全流程（需求分析-创意构思-视觉落地）。主导设计方向，运用PS进行海报绘制、文字排版及细节处理，协调分工与创意分歧。",
+      "honors": ["计算机设计大赛平面设计赛道国赛二等奖"],
+      "gallery": [
+        { "src": "待补充", "caption": "海报1：力学知识科普" },
+        { "src": "待补充", "caption": "海报2：光学知识科普" },
+        { "src": "待补充", "caption": "海报3：声学知识科普" },
+        { "src": "待补充", "caption": "海报4：磁学知识科普" }
+      ],
+      "concepts": [
+        {
+          "title": "创作理念",
+          "content": "以现代设计语言重新诠释中国古代物理智慧，让传统科学知识以更具视觉冲击力的方式触达年轻受众。"
+        },
+        {
+          "title": "设计手法",
+          "content": "融合中国风元素与现代排版，通过色彩对比和构图张力，在保留传统韵味的同时赋予作品当代审美。"
+        }
+      ]
+    },
+    {
+      "id": "ui-design",
+      "title": "OK AI助手 - 儿童英语口语学习",
+      "subtitle": "UI设计 · 国赛一等奖",
+      "type": "设计竞赛",
+      "time": "2025.01 - 2025.04",
+      "role": "核心设计成员",
+      "tools": "Figma",
+      "cover": "待补充",
+      "tags": ["UI设计", "Figma", "设计系统"],
+      "brief": "针对低龄儿童英语口语场景，打造AI助手「OK」趣味学习视觉体系，获蓝桥杯UI设计赛道国赛一等奖。",
+      "description": "主导视觉设计，用Figma搭建统一组件库，制定色彩、字体及布局规范。完成AR云游、情景口语、游戏记单词等核心模块界面设计，结合儿童心理优化交互，提升趣味性。",
+      "honors": ["蓝桥杯视觉设计赛UI赛道国赛一等奖"],
+      "gallery": [
+        { "src": "待补充", "caption": "首页与导航设计" },
+        { "src": "待补充", "caption": "AR云游模块" },
+        { "src": "待补充", "caption": "情景口语模块" },
+        { "src": "待补充", "caption": "游戏记单词模块" }
+      ],
+      "designNotes": [
+        {
+          "title": "设计系统",
+          "content": "建立统一的组件库和设计规范，确保各模块视觉一致性，提高团队协作效率。"
+        },
+        {
+          "title": "用户研究",
+          "content": "深入研究儿童认知心理，采用明亮色彩和圆润造型，降低学习门槛，提升使用乐趣。"
+        },
+        {
+          "title": "交互设计",
+          "content": "结合游戏化机制，通过即时反馈和成就系统激励儿童持续学习。"
+        }
+      ]
+    },
+    {
+      "id": "mental-health",
+      "title": "心理健康陪伴小程序",
+      "subtitle": "前端开发 · 大创项目",
+      "type": "大学生创新创业项目",
+      "time": "2026.03 - 2026.04",
+      "role": "团队负责人 + 前端开发",
+      "tools": "uni-app + Vue + GitHub",
+      "cover": "待补充",
+      "tags": ["uni-app", "Vue", "小程序", "团队管理"],
+      "brief": "面向大学生的心理健康陪伴小程序，主打「AI情绪感知+音乐疗愈+心情记录」，已完成MVP版本开发。",
+      "description": "基于uni-app搭建小程序前端框架，实现用户登录注册与路由配置，完成首页、情绪树洞、心情日历等核心页面开发。通过Flex布局实现多端自适应页面，完成情绪统计图表、音乐播放组件等核心交互模块。使用GitHub规范代码管理，统筹需求分析、任务拆分与进度把控，保障项目按时交付。",
+      "features": [
+        "AI情绪感知与陪伴对话",
+        "个性化音乐疗愈推荐",
+        "心情日历与情绪溯源",
+        "情绪统计图表可视化",
+        "多端自适应布局"
+      ],
+      "techStack": [
+        { "name": "uni-app", "desc": "跨端小程序框架" },
+        { "name": "Vue", "desc": "前端MVVM框架" },
+        { "name": "Flex布局", "desc": "多端自适应" },
+        { "name": "GitHub", "desc": "代码版本管理" }
+      ],
+      "gallery": [
+        { "src": "待补充", "caption": "首页设计" },
+        { "src": "待补充", "caption": "情绪树洞模块" },
+        { "src": "待补充", "caption": "心情日历模块" },
+        { "src": "待补充", "caption": "音乐播放组件" }
+      ]
+    }
+  ],
+
+  "experience": [
+    {
+      "company": "珠海中科技术研究院有限公司",
+      "position": "前端开发实习生",
+      "time": "2026.04 - 2026.06",
+      "project": "AI肿瘤辅助分析系统PC端",
+      "techStack": "Vue3 + TypeScript + Element Plus + ECharts",
+      "highlights": [
+        "全流程走查测试，累计发现并记录20+项功能与交互缺陷",
+        "独立分析并修复10+项前端Bug，涉及Vue组件重构、ECharts图表数据绑定优化等",
+        "提出5项界面交互优化建议并被采纳，编写《Bug清单及修复记录》内部文档"
+      ]
+    },
+    {
+      "company": "中国青年网",
+      "position": "线上实习生",
+      "time": "2025.07 - 2025.09",
+      "highlights": [
+        "负责稿件审阅与内容优化，日均处理30+篇稿件，累计审阅1600+篇",
+        "积累「以用户为中心」的需求洞察经验，为UI设计提供实践支撑"
+      ]
+    }
+  ],
+
+  "awards": [
+    { "name": "国家奖学金", "level": "国家级", "category": "学业" },
+    { "name": "校长奖学金", "level": "校级", "category": "学业" },
+    { "name": "连续两年综合奖学金一等奖", "level": "校级", "category": "学业" },
+    { "name": "学业表现单项奖学金", "level": "校级", "category": "学业" },
+    { "name": "蓝桥杯视觉设计赛UI赛道国赛一等奖", "level": "国家级", "category": "设计" },
+    { "name": "计算机设计大赛平面设计赛道国赛二等奖", "level": "国家级", "category": "设计" },
+    { "name": "SAS中国高校数据分析大赛国赛一等奖", "level": "国家级", "category": "数据" },
+    { "name": "复旦杯全国英语词汇大赛三等奖", "level": "国家级", "category": "英语" },
+    { "name": "第三届全国大学生C语言程序设计大赛三等奖", "level": "国家级", "category": "编程" }
+  ],
+
+  "certificates": [
+    "腾讯云从业者结业证书",
+    "CET-4",
+    "CET-6"
+  ],
+
+  "contact": {
+    "phone": "13570323172",
+    "wechat": "doudouoni6283",
+    "email": "3259958611@qq.com",
+    "github": "待补充",
+    "location": "广东 · 东莞"
+  },
+
+  "nav": [
+    { "id": "home", "label": "首页" },
+    { "id": "about", "label": "关于我" },
+    { "id": "skills", "label": "专业技能" },
+    { "id": "projects", "label": "作品集" },
+    { "id": "awards", "label": "荣誉奖项" },
+    { "id": "contact", "label": "联系我" }
+  ]
+}
