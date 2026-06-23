@@ -157,7 +157,18 @@
       const line2 = createLine('tpContainer2', 'tpTitle2', 'ZHOU SI XIA');
 
       // 原始动画循环（保留 lerp 因子 15）
+      // 鼠标移开时，虚拟鼠标滑向文字中心，字符自然恢复
       function animate() {
+        if (!isHovering) {
+          // 目标：第一行文字的中心
+          const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
+          const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
+          const centerX = (r1.left + r1.right) / 2;
+          const centerY = (r1.top + r2.bottom) / 2;
+          cursorRef.x = centerX;
+          cursorRef.y = centerY;
+        }
+
         mouseRef.x += (cursorRef.x - mouseRef.x) / 15;
         mouseRef.y += (cursorRef.y - mouseRef.y) / 15;
 
@@ -168,16 +179,6 @@
 
           line.spansRef.forEach(function (span) {
             if (!span) return;
-
-            // 鼠标不在文字区域时，重置为默认值
-            if (!isHovering) {
-              const defaultSettings = "'wght' 100, 'wdth' 100, 'ital' 0";
-              if (span.style.fontVariationSettings !== defaultSettings) {
-                span.style.fontVariationSettings = defaultSettings;
-              }
-              return;
-            }
-
             const rect = span.getBoundingClientRect();
             const charCenter = {
               x: rect.x + rect.width / 2,
