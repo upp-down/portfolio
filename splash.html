@@ -84,6 +84,7 @@
       // 共享鼠标状态
       const mouseRef = { x: 0, y: 0 };
       const cursorRef = { x: 0, y: 0 };
+      let isHovering = false;  // 鼠标是否在文字区域内
 
       window.addEventListener('mousemove', function (e) {
         cursorRef.x = e.clientX;
@@ -101,6 +102,23 @@
       mouseRef.y = initRect.top + initRect.height / 2;
       cursorRef.x = mouseRef.x;
       cursorRef.y = mouseRef.y;
+
+      // 检测鼠标是否在文字区域内（两个容器的合并区域）
+      function checkHover() {
+        const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
+        const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
+        const padding = 40;  // 扩大检测范围
+        const top = Math.min(r1.top, r2.top) - padding;
+        const bottom = Math.max(r1.bottom, r2.bottom) + padding;
+        const left = Math.min(r1.left, r2.left) - padding;
+        const right = Math.max(r1.right, r2.right) + padding;
+        const cx = cursorRef.x;
+        const cy = cursorRef.y;
+        isHovering = (cx >= left && cx <= right && cy >= top && cy <= bottom);
+      }
+
+      window.addEventListener('mousemove', checkHover);
+      window.addEventListener('touchmove', checkHover, { passive: true });
 
       // 创建单行 TextPressure
       function createLine(containerId, titleId, text) {
@@ -150,6 +168,16 @@
 
           line.spansRef.forEach(function (span) {
             if (!span) return;
+
+            // 鼠标不在文字区域时，重置为默认值
+            if (!isHovering) {
+              const defaultSettings = "'wght' 100, 'wdth' 100, 'ital' 0";
+              if (span.style.fontVariationSettings !== defaultSettings) {
+                span.style.fontVariationSettings = defaultSettings;
+              }
+              return;
+            }
+
             const rect = span.getBoundingClientRect();
             const charCenter = {
               x: rect.x + rect.width / 2,
