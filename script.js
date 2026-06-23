@@ -1,113 +1,128 @@
 /**
  * 周思霞个人作品集 - 交互逻辑
- * 风格：艺术策展/画廊风格，交互克制有质感
- * 动效：GSAP 驱动的页面过渡 + 滚动动画
+ * 动效：P1 滚动驱动横向移动 + P2 粘性堆叠卡片
  */
 
 // ===== DOM 元素 =====
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 const navbar = document.getElementById('navbar');
-const fadeElements = document.querySelectorAll('.fade-up');
 const navLinkItems = document.querySelectorAll('.nav-link');
-const overlay = document.getElementById('pageOverlay');
+const fadeElements = document.querySelectorAll('.fade-up');
 
-// ===== 1. 页面入场动画（遮罩层展开） =====
+// ===== P1: 滚动驱动横向移动（技能标签带） =====
 
-function pageEnterAnimation() {
-  // 等 GSAP 加载完成
-  if (typeof gsap === 'undefined') {
-    // GSAP 未加载时直接隐藏遮罩
-    if (overlay) overlay.style.display = 'none';
-    initAfterLoad();
-    return;
-  }
+function initMarquee() {
+  const marquee = document.getElementById('skillsMarquee');
+  if (!marquee) return;
 
-  // 检查是否有从详情页返回的标记（不需要入场动画）
-  const isBack = sessionStorage.getItem('pageTransition') === 'back';
-  if (isBack) {
-    sessionStorage.removeItem('pageTransition');
-    gsap.set(overlay, { opacity: 0, display: 'none' });
-    initAfterLoad();
-    return;
-  }
+  const rows = marquee.querySelectorAll('.marquee-row');
+  const speeds = [0.3, -0.2]; // 第一行向左，第二行向右
 
-  // 入场：遮罩层从上往下收起，露出页面
-  gsap.set(overlay, { transformOrigin: 'top', scaleY: 1, opacity: 1, display: 'block' });
-  gsap.to(overlay, {
-    scaleY: 0,
-    duration: 0.8,
-    ease: 'power3.inOut',
-    delay: 0.1,
-    onComplete: () => {
-      gsap.set(overlay, { display: 'none' });
-      initAfterLoad();
+  let ticking = false;
+
+  function updateMarquee() {
+    const rect = marquee.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // 只在元素可见时计算
+    if (rect.bottom < 0 || rect.top > windowHeight) {
+      ticking = false;
+      return;
     }
-  });
-}
 
-// 页面加载后执行入场动画
-window.addEventListener('DOMContentLoaded', () => {
-  // 等字体加载后执行，避免布局跳动
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => pageEnterAnimation());
-  } else {
-    setTimeout(pageEnterAnimation, 100);
-  }
-});
+    // 计算滚动进度（0~1）
+    const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
 
-// ===== 2. 页面退场动画（遮罩层展开覆盖） =====
+    rows.forEach((row, i) => {
+      const track = row.querySelector('.marquee-track');
+      if (!track) return;
 
-/**
- * 点击项目卡片时触发退场动画
- * @param {MouseEvent} e - 点击事件
- * @param {string} targetUrl - 目标页面 URL
- */
-function pageExitAnimation(e, targetUrl) {
-  e.preventDefault();
+      // 计算偏移量
+      const maxOffset = track.scrollWidth / 2; // 一半宽度（因为有重复内容）
+      const offset = progress * maxOffset * speeds[i];
 
-  // 获取点击的卡片信息
-  const card = e.currentTarget.closest('.project-entry');
-  const cover = card.querySelector('.project-cover-wrap');
-  const rect = cover.getBoundingClientRect();
-
-  // 存储卡片位置信息到 sessionStorage
-  sessionStorage.setItem('flipData', JSON.stringify({
-    x: rect.left,
-    y: rect.top,
-    width: rect.width,
-    height: rect.height,
-    projectId: targetUrl.replace('.html', '')
-  }));
-
-  if (typeof gsap === 'undefined') {
-    window.location.href = targetUrl;
-    return;
-  }
-
-  // 退场动画：遮罩层从下往上展开，覆盖页面
-  gsap.set(overlay, { transformOrigin: 'bottom', scaleY: 0, opacity: 1, display: 'block' });
-  gsap.to(overlay, {
-    scaleY: 1,
-    duration: 0.6,
-    ease: 'power3.inOut',
-    onComplete: () => {
-      window.location.href = targetUrl;
-    }
-  });
-}
-
-// ===== 3. 项目卡片绑定跳转动效 =====
-
-function bindProjectTransitions() {
-  document.querySelectorAll('.project-link a[href$=".html"]').forEach(link => {
-    link.addEventListener('click', function (e) {
-      pageExitAnimation(e, this.getAttribute('href'));
+      track.style.transform = `translateX(${offset}px)`;
     });
-  });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateMarquee);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // 初始执行一次
+  updateMarquee();
 }
 
-// ===== 4. 导航栏滚动高亮 =====
+// ===== P2: 粘性堆叠卡片 =====
+
+function initStickyStack() {
+  const stack = document.getElementById('stickyStack');
+  if (!stack) return;
+
+  const cards = stack.querySelectorAll('.stack-card');
+  if (!cards.length) return;
+
+  let ticking = false;
+
+  function updateStack() {
+    const stackRect = stack.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.top + rect.height / 2;
+
+      // 当前卡片已经滚过视口顶部一定距离时，开始缩小
+      const threshold = 120; // 距离顶部多少像素开始效果
+      const scrollPast = threshold - rect.top;
+
+      if (scrollPast > 0 && index < cards.length - 1) {
+        // 计算缩小进度（0~1）
+        const progress = Math.min(scrollPast / 200, 1);
+
+        card.classList.add('is-stacking');
+        card.classList.remove('is-hidden');
+
+        // 动态缩放
+        const scale = 1 - progress * 0.03; // 从 1 缩到 0.97
+        const opacity = 1 - progress * 0.15; // 从 1 降到 0.85
+        card.style.transform = `scale(${scale})`;
+        card.style.opacity = opacity;
+      } else if (scrollPast > 300 && index < cards.length - 1) {
+        // 完全隐藏
+        card.classList.add('is-hidden');
+        card.classList.remove('is-stacking');
+        card.style.transform = '';
+        card.style.opacity = '';
+      } else {
+        // 恢复默认
+        card.classList.remove('is-stacking', 'is-hidden');
+        card.style.transform = '';
+        card.style.opacity = '';
+      }
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateStack);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // 初始执行一次
+  updateStack();
+}
+
+// ===== 导航栏滚动高亮 =====
 
 function updateNavigation() {
   const scrollY = window.scrollY + 100;
@@ -141,7 +156,7 @@ window.addEventListener('scroll', () => {
   }, 50);
 });
 
-// ===== 5. 移动端菜单 =====
+// ===== 移动端菜单 =====
 
 function toggleMenu() {
   hamburger.classList.toggle('active');
@@ -162,42 +177,14 @@ document.addEventListener('click', e => {
   }
 });
 
-// ===== 6. 滚动淡入动画（GSAP 增强版） =====
+// ===== 滚动淡入动画 =====
 
 function initScrollAnimations() {
-  if (typeof gsap === 'undefined') {
-    // 降级：使用原生 IntersectionObserver
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: '0px 0px -60px 0px', threshold: 0.1 }
-    );
-    fadeElements.forEach(el => observer.observe(el));
-    return;
-  }
-
-  // GSAP 版本：更流畅的淡入
-  fadeElements.forEach((el, i) => {
-    gsap.set(el, { opacity: 0, y: 30 });
-  });
-
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          gsap.to(entry.target, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power2.out',
-            delay: 0.05
-          });
+          entry.target.classList.add('visible');
           observer.unobserve(entry.target);
         }
       });
@@ -208,7 +195,7 @@ function initScrollAnimations() {
   fadeElements.forEach(el => observer.observe(el));
 }
 
-// ===== 7. 平滑滚动 =====
+// ===== 平滑滚动 =====
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -223,7 +210,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ===== 8. 图片懒加载 =====
+// ===== 图片懒加载 =====
 
 function initLazyLoading() {
   const images = document.querySelectorAll('img[data-src]');
@@ -242,14 +229,74 @@ function initLazyLoading() {
   images.forEach(img => observer.observe(img));
 }
 
-// ===== 9. 入场后的初始化 =====
+// ===== 项目卡片跳转动效 =====
 
-function initAfterLoad() {
+function bindProjectTransitions() {
+  const overlay = document.getElementById('pageOverlay');
+
+  document.querySelectorAll('.project-link a[href$=".html"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const url = this.getAttribute('href');
+
+      if (!overlay) {
+        window.location.href = url;
+        return;
+      }
+
+      // 退场动画
+      overlay.style.transformOrigin = 'bottom';
+      overlay.style.transition = 'transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)';
+      overlay.style.transform = 'scaleY(1)';
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 600);
+    });
+  });
+}
+
+// ===== 入场动画 =====
+
+function pageEnterAnimation() {
+  const overlay = document.getElementById('pageOverlay');
+  if (!overlay) return;
+
+  // 检查是否从详情页返回
+  const isBack = sessionStorage.getItem('pageTransition') === 'back';
+  if (isBack) {
+    sessionStorage.removeItem('pageTransition');
+    overlay.style.display = 'none';
+    initAll();
+    return;
+  }
+
+  // 入场：遮罩从上收起
+  overlay.style.transformOrigin = 'top';
+  overlay.style.transition = 'transform 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
+  overlay.style.transform = 'scaleY(0)';
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    initAll();
+  }, 800);
+}
+
+// ===== 统一初始化 =====
+
+function initAll() {
   updateNavigation();
-  bindProjectTransitions();
+  initMarquee();
+  initStickyStack();
   initScrollAnimations();
   initLazyLoading();
+  bindProjectTransitions();
 }
+
+// 页面加载后执行
+window.addEventListener('DOMContentLoaded', () => {
+  pageEnterAnimation();
+});
 
 // ===== 控制台 =====
 console.log('%c👋 欢迎查看周思霞的个人作品集', 'color: #C49A6C; font-size: 14px; font-weight: 600;');

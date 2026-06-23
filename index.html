@@ -131,35 +131,56 @@
         <span class="section-label">Skills</span>
         <h2 class="section-title">我的技术栈</h2>
       </div>
-      <div class="skills-inner fade-up">
-        <div class="skill-group">
-          <h3 class="skill-group-title">Frontend</h3>
-          <div class="skill-list">
-            <span class="skill-item">HTML5 / CSS3</span>
-            <span class="skill-item">Flex / Grid 布局</span>
-            <span class="skill-item">JavaScript (ES6+)</span>
-            <span class="skill-item">Vue3</span>
-            <span class="skill-item">TypeScript</span>
-            <span class="skill-item">uni-app</span>
-            <span class="skill-item">Element Plus</span>
+      <!-- 横向滚动标签带 -->
+      <div class="skills-marquee" id="skillsMarquee">
+        <div class="marquee-row marquee-left">
+          <div class="marquee-track">
+            <span class="marquee-tag">HTML5</span>
+            <span class="marquee-tag">CSS3</span>
+            <span class="marquee-tag">JavaScript</span>
+            <span class="marquee-tag">Vue3</span>
+            <span class="marquee-tag">TypeScript</span>
+            <span class="marquee-tag">uni-app</span>
+            <span class="marquee-tag">Element Plus</span>
+            <span class="marquee-tag">Figma</span>
+            <span class="marquee-tag">Photoshop</span>
+            <span class="marquee-tag">Illustrator</span>
+            <!-- 重复一份用于无缝循环 -->
+            <span class="marquee-tag">HTML5</span>
+            <span class="marquee-tag">CSS3</span>
+            <span class="marquee-tag">JavaScript</span>
+            <span class="marquee-tag">Vue3</span>
+            <span class="marquee-tag">TypeScript</span>
+            <span class="marquee-tag">uni-app</span>
+            <span class="marquee-tag">Element Plus</span>
+            <span class="marquee-tag">Figma</span>
+            <span class="marquee-tag">Photoshop</span>
+            <span class="marquee-tag">Illustrator</span>
           </div>
         </div>
-        <div class="skill-group">
-          <h3 class="skill-group-title">Design</h3>
-          <div class="skill-list">
-            <span class="skill-item">Figma</span>
-            <span class="skill-item">Photoshop</span>
-            <span class="skill-item">Illustrator</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-group-title">Other</h3>
-          <div class="skill-list">
-            <span class="skill-item">C 语言</span>
-            <span class="skill-item">Python</span>
-            <span class="skill-item">MySQL</span>
-            <span class="skill-item">Git / GitHub</span>
-            <span class="skill-item">DevTools 调试</span>
+        <div class="marquee-row marquee-right">
+          <div class="marquee-track">
+            <span class="marquee-tag">Flex / Grid</span>
+            <span class="marquee-tag">Git</span>
+            <span class="marquee-tag">GitHub</span>
+            <span class="marquee-tag">C 语言</span>
+            <span class="marquee-tag">Python</span>
+            <span class="marquee-tag">MySQL</span>
+            <span class="marquee-tag">DevTools</span>
+            <span class="marquee-tag">响应式设计</span>
+            <span class="marquee-tag">组件化开发</span>
+            <span class="marquee-tag">UI 设计</span>
+            <!-- 重复 -->
+            <span class="marquee-tag">Flex / Grid</span>
+            <span class="marquee-tag">Git</span>
+            <span class="marquee-tag">GitHub</span>
+            <span class="marquee-tag">C 语言</span>
+            <span class="marquee-tag">Python</span>
+            <span class="marquee-tag">MySQL</span>
+            <span class="marquee-tag">DevTools</span>
+            <span class="marquee-tag">响应式设计</span>
+            <span class="marquee-tag">组件化开发</span>
+            <span class="marquee-tag">UI 设计</span>
           </div>
         </div>
       </div>
@@ -175,134 +196,145 @@
         <p class="section-desc">每个项目都是一次从0到1的创造过程</p>
       </div>
 
-      <!-- 项目 01：海报设计 -->
-      <div class="project-entry fade-up">
-        <div class="project-cover-wrap">
-          <div class="project-cover">
-            <div class="project-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
-                <rect x="3" y="3" width="18" height="18" rx="1"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span>海报设计作品</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-info">
-          <span class="project-number">01</span>
-          <span class="project-type">Poster Design</span>
-          <h3 class="project-title">中国古代物理知识科普设计</h3>
-          <p class="project-desc">以「弘扬中国古代物理知识」为核心选题，完成4张主题海报的绘制与视觉设计，统筹设计全流程。</p>
-          <div class="project-tags">
-            <span class="tag">海报设计</span>
-            <span class="tag">Photoshop</span>
-            <span class="tag">团队协作</span>
-          </div>
-          <div class="project-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2025.04 — 2025.05
-            </span>
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              国赛二等奖
-            </span>
-          </div>
-          <div class="project-link">
-            <a href="poster.html" class="btn btn-accent btn-sm">
-              <span>View Project</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+      <!-- 粘性堆叠容器 -->
+      <div class="sticky-stack" id="stickyStack">
 
-      <!-- 项目 02：UI设计 -->
-      <div class="project-entry reverse fade-up">
-        <div class="project-cover-wrap">
-          <div class="project-cover">
-            <div class="project-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
-                <rect x="3" y="3" width="18" height="18" rx="1"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span>UI设计作品</span>
+        <!-- 项目 01：海报设计 -->
+        <div class="stack-card" data-stack-index="0">
+          <div class="project-entry">
+            <div class="project-cover-wrap">
+              <div class="project-cover">
+                <div class="project-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                    <rect x="3" y="3" width="18" height="18" rx="1"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>海报设计作品</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-number">01</span>
+              <span class="project-type">Poster Design</span>
+              <h3 class="project-title">中国古代物理知识科普设计</h3>
+              <p class="project-desc">以「弘扬中国古代物理知识」为核心选题，完成4张主题海报的绘制与视觉设计，统筹设计全流程。</p>
+              <div class="project-tags">
+                <span class="tag">海报设计</span>
+                <span class="tag">Photoshop</span>
+                <span class="tag">团队协作</span>
+              </div>
+              <div class="project-meta">
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2025.04 — 2025.05
+                </span>
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  国赛二等奖
+                </span>
+              </div>
+              <div class="project-link">
+                <a href="poster.html" class="btn btn-accent btn-sm">
+                  <span>View Project</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="project-info">
-          <span class="project-number">02</span>
-          <span class="project-type">UI Design</span>
-          <h3 class="project-title">OK AI助手 · 儿童英语口语学习</h3>
-          <p class="project-desc">针对低龄儿童英语口语场景，打造AI助手「OK」趣味学习视觉体系，获蓝桥杯UI设计赛道国赛一等奖。</p>
-          <div class="project-tags">
-            <span class="tag">UI设计</span>
-            <span class="tag">Figma</span>
-            <span class="tag">设计系统</span>
-          </div>
-          <div class="project-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2025.01 — 2025.04
-            </span>
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              国赛一等奖
-            </span>
-          </div>
-          <div class="project-link">
-            <a href="ui-design.html" class="btn btn-accent btn-sm">
-              <span>View Project</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
 
-      <!-- 项目 03：前端项目 -->
-      <div class="project-entry fade-up">
-        <div class="project-cover-wrap">
-          <div class="project-cover">
-            <div class="project-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
-                <rect x="3" y="3" width="18" height="18" rx="1"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span>小程序作品</span>
+        <!-- 项目 02：UI设计 -->
+        <div class="stack-card" data-stack-index="1">
+          <div class="project-entry reverse">
+            <div class="project-cover-wrap">
+              <div class="project-cover">
+                <div class="project-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                    <rect x="3" y="3" width="18" height="18" rx="1"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>UI设计作品</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-number">02</span>
+              <span class="project-type">UI Design</span>
+              <h3 class="project-title">OK AI助手 · 儿童英语口语学习</h3>
+              <p class="project-desc">针对低龄儿童英语口语场景，打造AI助手「OK」趣味学习视觉体系，获蓝桥杯UI设计赛道国赛一等奖。</p>
+              <div class="project-tags">
+                <span class="tag">UI设计</span>
+                <span class="tag">Figma</span>
+                <span class="tag">设计系统</span>
+              </div>
+              <div class="project-meta">
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2025.01 — 2025.04
+                </span>
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  国赛一等奖
+                </span>
+              </div>
+              <div class="project-link">
+                <a href="ui-design.html" class="btn btn-accent btn-sm">
+                  <span>View Project</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="project-info">
-          <span class="project-number">03</span>
-          <span class="project-type">Frontend Dev</span>
-          <h3 class="project-title">心理健康陪伴小程序</h3>
-          <p class="project-desc">面向大学生的心理健康陪伴小程序，主打「AI情绪感知+音乐疗愈+心情记录」，已完成MVP版本开发。</p>
-          <div class="project-tags">
-            <span class="tag">uni-app</span>
-            <span class="tag">Vue</span>
-            <span class="tag">小程序</span>
-            <span class="tag">团队管理</span>
-          </div>
-          <div class="project-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2026.03 — 2026.04
-            </span>
-            <span class="meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              大创项目 · 团队负责人
-            </span>
-          </div>
-          <div class="project-link">
-            <a href="mental-health.html" class="btn btn-accent btn-sm">
-              <span>View Project</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
+
+        <!-- 项目 03：前端项目 -->
+        <div class="stack-card" data-stack-index="2">
+          <div class="project-entry">
+            <div class="project-cover-wrap">
+              <div class="project-cover">
+                <div class="project-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" width="40" height="40">
+                    <rect x="3" y="3" width="18" height="18" rx="1"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>小程序作品</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-number">03</span>
+              <span class="project-type">Frontend Dev</span>
+              <h3 class="project-title">心理健康陪伴小程序</h3>
+              <p class="project-desc">面向大学生的心理健康陪伴小程序，主打「AI情绪感知+音乐疗愈+心情记录」，已完成MVP版本开发。</p>
+              <div class="project-tags">
+                <span class="tag">uni-app</span>
+                <span class="tag">Vue</span>
+                <span class="tag">小程序</span>
+                <span class="tag">团队管理</span>
+              </div>
+              <div class="project-meta">
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2026.03 — 2026.04
+                </span>
+                <span class="meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                  大创项目 · 团队负责人
+                </span>
+              </div>
+              <div class="project-link">
+                <a href="mental-health.html" class="btn btn-accent btn-sm">
+                  <span>View Project</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>

@@ -555,7 +555,72 @@ img {
   border-bottom: none;
 }
 
-/* ===== 作品集 ===== */
+/* ===== 横向滚动标签带（P1） ===== */
+.skills-marquee {
+  margin-top: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.marquee-row {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-tag {
+  flex-shrink: 0;
+  padding: 10px 24px;
+  border: 1px solid var(--divider);
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.marquee-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ===== 粘性堆叠卡片（P2） ===== */
+.sticky-stack {
+  position: relative;
+}
+
+.stack-card {
+  position: sticky;
+  top: 90px;
+  margin-bottom: 60px;
+  transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.5s ease;
+  will-change: transform, opacity;
+}
+
+.stack-card:last-child {
+  margin-bottom: 0;
+}
+
+.stack-card.is-stacking {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+.stack-card.is-hidden {
+  transform: scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .projects-section {
   background: var(--bg);
 }
@@ -565,15 +630,10 @@ img {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
-  margin-bottom: 120px;
-  padding-bottom: 120px;
-  border-bottom: 1px solid var(--divider);
-}
-
-.project-entry:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+  background: var(--bg);
+  padding: 40px;
+  border: 1px solid var(--divider);
+  border-radius: 4px;
 }
 
 .project-entry.reverse {
