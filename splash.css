@@ -57,7 +57,12 @@ html, body {
 .shape {
   position: absolute;
   opacity: 0;
-  animation: shape-in 1.2s ease forwards;
+  animation: shape-in 1.2s ease forwards, shape-float 6s ease-in-out infinite;
+}
+
+@keyframes shape-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
 .shape-circle {
@@ -75,7 +80,8 @@ html, body {
   background: rgba(214, 40, 40, 0.12);
   top: -40px;
   right: 8%;
-  animation-delay: 0.3s;
+  animation-delay: 0.3s, 0s;
+  animation-duration: 1.2s, 7s;
 }
 
 /* 圆形2 - 左下角中圆 */
@@ -85,7 +91,8 @@ html, body {
   background: rgba(248, 233, 161, 0.18);
   bottom: 10%;
   left: 5%;
-  animation-delay: 0.5s;
+  animation-delay: 0.5s, 1s;
+  animation-duration: 1.2s, 8s;
 }
 
 /* 长方形1 - 右侧中部 */
@@ -96,7 +103,8 @@ html, body {
   top: 25%;
   right: 15%;
   transform: rotate(15deg);
-  animation-delay: 0.4s;
+  animation-delay: 0.4s, 0.5s;
+  animation-duration: 1.2s, 6s;
 }
 
 /* 圆形3 - 右下角小圆 */
@@ -106,7 +114,8 @@ html, body {
   background: rgba(214, 40, 40, 0.15);
   bottom: 20%;
   right: 25%;
-  animation-delay: 0.7s;
+  animation-delay: 0.7s, 1.5s;
+  animation-duration: 1.2s, 9s;
 }
 
 /* 长方形2 - 左上角 */
@@ -117,7 +126,8 @@ html, body {
   top: 15%;
   left: 8%;
   transform: rotate(-8deg);
-  animation-delay: 0.6s;
+  animation-delay: 0.6s, 2s;
+  animation-duration: 1.2s, 7.5s;
 }
 
 /* 圆形4 - 右侧中部小圆 */
@@ -127,7 +137,8 @@ html, body {
   background: rgba(0, 48, 73, 0.12);
   top: 55%;
   right: 5%;
-  animation-delay: 0.8s;
+  animation-delay: 0.8s, 0.8s;
+  animation-duration: 1.2s, 6.5s;
 }
 
 /* 长方形3 - 底部右侧 */
@@ -138,7 +149,8 @@ html, body {
   bottom: 5%;
   right: 10%;
   transform: rotate(5deg);
-  animation-delay: 0.9s;
+  animation-delay: 0.9s, 1.2s;
+  animation-duration: 1.2s, 8.5s;
 }
 
 /* 圆形5 - 顶部中央偏右 */
@@ -148,7 +160,8 @@ html, body {
   background: rgba(248, 233, 161, 0.16);
   top: 5%;
   left: 55%;
-  animation-delay: 0.5s;
+  animation-delay: 0.5s, 0.3s;
+  animation-duration: 1.2s, 7s;
 }
 
 @keyframes shape-in {
