@@ -6,6 +6,8 @@
   <title>周思霞 | Web Frontend Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Roboto Flex 可变字体（支持 wght/wdth/ital 轴） -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="splash.css">
 </head>
@@ -15,9 +17,12 @@
 
     <!-- 主内容 -->
     <div class="splash-body">
-      <h1 class="splash-headline">
-        A portal to the work of<br><em>Zhou Sixia</em>
-      </h1>
+
+      <!-- TextPressure 文字动效容器 -->
+      <div class="tp-container" id="tpContainer">
+        <h1 class="tp-title" id="tpTitle"></h1>
+      </div>
+
       <button class="splash-cta" id="enterBtn">
         <span>Begin exploring</span>
         <span class="splash-cta-line"></span>
@@ -37,6 +42,142 @@
     <div class="splash-accent"></div>
 
   </div>
+
+  <script>
+    // =============================================
+    // TextPressure - 严格按 ReactBits 原始代码移植
+    // 保留全部动画曲线和延迟参数
+    // =============================================
+    (function () {
+      'use strict';
+
+      // 原始配置（只改文字和颜色）
+      const TEXT = 'A portal to the work of Zhou Sixia';
+      const TEXT_COLOR = '#1C1C1A';
+      const FONT_FAMILY = 'Roboto Flex';
+      const WIDTH = true;
+      const WEIGHT = true;
+      const ITALIC = true;
+      const ALPHA = false;
+      const FLEX = true;
+      const MIN_FONT_SIZE = 24;
+
+      // 原始工具函数
+      function dist(a, b) {
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      function getAttr(distance, maxDist, minVal, maxVal) {
+        const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+        return Math.max(minVal, val + minVal);
+      }
+
+      // 状态
+      const mouseRef = { x: 0, y: 0 };
+      const cursorRef = { x: 0, y: 0 };
+      const spansRef = [];
+      let fontSize = MIN_FONT_SIZE;
+
+      const container = document.getElementById('tpContainer');
+      const title = document.getElementById('tpTitle');
+      const chars = TEXT.split('');
+
+      // 创建 span 元素
+      chars.forEach(function (char, i) {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.setAttribute('data-char', char);
+        span.style.display = 'inline-block';
+        span.style.color = TEXT_COLOR;
+        title.appendChild(span);
+        spansRef.push(span);
+      });
+
+      // 原始鼠标事件
+      window.addEventListener('mousemove', function (e) {
+        cursorRef.x = e.clientX;
+        cursorRef.y = e.clientY;
+      });
+      window.addEventListener('touchmove', function (e) {
+        const t = e.touches[0];
+        cursorRef.x = t.clientX;
+        cursorRef.y = t.clientY;
+      }, { passive: true });
+
+      // 初始化鼠标位置
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        mouseRef.x = rect.left + rect.width / 2;
+        mouseRef.y = rect.top + rect.height / 2;
+        cursorRef.x = mouseRef.x;
+        cursorRef.y = mouseRef.y;
+      }
+
+      // 原始 setSize 逻辑
+      function setSize() {
+        if (!container || !title) return;
+        const containerW = container.getBoundingClientRect().width;
+        let newFontSize = containerW / (chars.length / 2);
+        newFontSize = Math.max(newFontSize, MIN_FONT_SIZE);
+        fontSize = newFontSize;
+        title.style.fontSize = fontSize + 'px';
+      }
+
+      // 原始 debounce
+      function debounce(func, delay) {
+        let timeoutId;
+        return function () {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(func, delay);
+        };
+      }
+
+      const debouncedSetSize = debounce(setSize, 100);
+      debouncedSetSize();
+      window.addEventListener('resize', debouncedSetSize);
+
+      // 原始动画循环（保留 lerp 因子 15）
+      function animate() {
+        mouseRef.x += (cursorRef.x - mouseRef.x) / 15;
+        mouseRef.y += (cursorRef.y - mouseRef.y) / 15;
+
+        if (title) {
+          const titleRect = title.getBoundingClientRect();
+          const maxDist = titleRect.width / 2;
+
+          spansRef.forEach(function (span) {
+            if (!span) return;
+            const rect = span.getBoundingClientRect();
+            const charCenter = {
+              x: rect.x + rect.width / 2,
+              y: rect.y + rect.height / 2
+            };
+            const d = dist(mouseRef, charCenter);
+
+            // 原始属性计算
+            const wdth = WIDTH ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
+            const wght = WEIGHT ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
+            const italVal = ITALIC ? getAttr(d, maxDist, 0, 1).toFixed(2) : 0;
+            const alphaVal = ALPHA ? getAttr(d, maxDist, 0, 1).toFixed(2) : 1;
+
+            const newSettings = "'wght' " + wght + ", 'wdth' " + wdth + ", 'ital' " + italVal;
+            if (span.style.fontVariationSettings !== newSettings) {
+              span.style.fontVariationSettings = newSettings;
+            }
+            if (ALPHA && span.style.opacity !== alphaVal) {
+              span.style.opacity = alphaVal;
+            }
+          });
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    })();
+  </script>
 
   <!-- 过渡 -->
   <script>

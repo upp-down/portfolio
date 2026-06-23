@@ -39,25 +39,29 @@ html, body {
   padding: 0 10%;
 }
 
-/* 主句 */
-.splash-headline {
-  font-family: 'DM Sans', 'Inter', sans-serif;
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 300;
-  color: #1C1C1A;
-  line-height: 1.35;
-  letter-spacing: 0.04em;
-  max-width: 600px;
+/* TextPressure 文字动效容器 */
+.tp-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
   opacity: 0;
-  transform: translateY(20px);
   animation: splash-in 1s ease forwards;
   animation-delay: 0.4s;
 }
 
-.splash-headline em {
-  font-style: normal;
-  font-weight: 500;
-  color: #C49A6C;
+.tp-title {
+  font-family: 'Roboto Flex', sans-serif;
+  text-transform: uppercase;
+  font-weight: 100;
+  line-height: 1;
+  margin: 0;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: #1C1C1A;
 }
 
 /* 按钮 */
@@ -168,8 +172,8 @@ html, body {
     padding: 0 8%;
   }
 
-  .splash-headline {
-    font-size: clamp(1.4rem, 6vw, 2rem);
+  .tp-title {
+    white-space: normal;
   }
 
   .splash-footer {
