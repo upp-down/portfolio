@@ -159,47 +159,76 @@
       const line1 = createLine('tpContainer1', 'tpTitle1', 'A PORTAL TO THE WORK OF');
       const line2 = createLine('tpContainer2', 'tpTitle2', 'ZHOU SI XIA');
 
-      // 原始动画循环（保留 lerp 因子 15）
+      // 默认状态值
+      const DEFAULT_WDTH = 100;
+      const DEFAULT_WGHT = 100;
+      const DEFAULT_ITAL = 0;
+      const LERP = 15;  // 原始 lerp 因子
+
+      // 每个 span 的当前插值状态
+      function createSpanState() {
+        return { wdth: DEFAULT_WDTH, wght: DEFAULT_WGHT, ital: DEFAULT_ITAL };
+      }
+
+      // 初始化所有 span 的状态
+      function initSpanStates(line) {
+        line.states = line.spansRef.map(function () { return createSpanState(); });
+      }
+
+      initSpanStates(line1);
+      initSpanStates(line2);
+
+      // 原始动画循环
       function animate() {
-        // 决定动画跟随的目标：悬停时跟随鼠标，离开时滑向文字中心
         if (isHovering) {
-          targetRef.x = cursorRef.x;
-          targetRef.y = cursorRef.y;
+          // 悬停：按原始逻辑计算目标值
+          [line1, line2].forEach(function (line) {
+            if (!line.title) return;
+            const titleRect = line.title.getBoundingClientRect();
+            const maxDist = titleRect.width / 2;
+
+            line.spansRef.forEach(function (span, i) {
+              if (!span) return;
+              const rect = span.getBoundingClientRect();
+              const charCenter = {
+                x: rect.x + rect.width / 2,
+                y: rect.y + rect.height / 2
+              };
+              const d = dist(mouseRef, charCenter);
+
+              const targetWdth = WIDTH ? Math.floor(getAttr(d, maxDist, 5, 200)) : DEFAULT_WDTH;
+              const targetWght = WEIGHT ? Math.floor(getAttr(d, maxDist, 100, 900)) : DEFAULT_WGHT;
+              const targetItal = ITALIC ? parseFloat(getAttr(d, maxDist, 0, 1).toFixed(2)) : DEFAULT_ITAL;
+
+              // 插值到目标
+              line.states[i].wdth += (targetWdth - line.states[i].wdth) / LERP;
+              line.states[i].wght += (targetWght - line.states[i].wght) / LERP;
+              line.states[i].ital += (targetItal - line.states[i].ital) / LERP;
+            });
+          });
+
+          // 跟随鼠标
+          mouseRef.x += (cursorRef.x - mouseRef.x) / LERP;
+          mouseRef.y += (cursorRef.y - mouseRef.y) / LERP;
         } else {
-          const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
-          const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
-          targetRef.x = (r1.left + r1.right) / 2;
-          targetRef.y = (r1.top + r2.bottom) / 2;
+          // 离开：所有 span 平滑恢复到默认值
+          [line1, line2].forEach(function (line) {
+            line.states.forEach(function (state) {
+              state.wdth += (DEFAULT_WDTH - state.wdth) / LERP;
+              state.wght += (DEFAULT_WGHT - state.wght) / LERP;
+              state.ital += (DEFAULT_ITAL - state.ital) / LERP;
+            });
+          });
         }
 
-        mouseRef.x += (targetRef.x - mouseRef.x) / 15;
-        mouseRef.y += (targetRef.y - mouseRef.y) / 15;
-
+        // 应用当前状态到 DOM
         [line1, line2].forEach(function (line) {
-          if (!line.title) return;
-          const titleRect = line.title.getBoundingClientRect();
-          const maxDist = titleRect.width / 2;
-
-          line.spansRef.forEach(function (span) {
-            if (!span) return;
-            const rect = span.getBoundingClientRect();
-            const charCenter = {
-              x: rect.x + rect.width / 2,
-              y: rect.y + rect.height / 2
-            };
-            const d = dist(mouseRef, charCenter);
-
-            const wdth = WIDTH ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-            const wght = WEIGHT ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
-            const italVal = ITALIC ? getAttr(d, maxDist, 0, 1).toFixed(2) : 0;
-            const alphaVal = ALPHA ? getAttr(d, maxDist, 0, 1).toFixed(2) : 1;
-
-            const newSettings = "'wght' " + wght + ", 'wdth' " + wdth + ", 'ital' " + italVal;
-            if (span.style.fontVariationSettings !== newSettings) {
-              span.style.fontVariationSettings = newSettings;
-            }
-            if (ALPHA && span.style.opacity !== alphaVal) {
-              span.style.opacity = alphaVal;
+          line.spansRef.forEach(function (span, i) {
+            if (!span || !line.states[i]) return;
+            const s = line.states[i];
+            const settings = "'wght' " + Math.round(s.wght) + ", 'wdth' " + Math.round(s.wdth) + ", 'ital' " + s.ital.toFixed(2);
+            if (span.style.fontVariationSettings !== settings) {
+              span.style.fontVariationSettings = settings;
             }
           });
         });
