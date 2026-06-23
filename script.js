@@ -17,7 +17,7 @@ function initMarquee() {
   if (!marquee) return;
 
   const rows = marquee.querySelectorAll('.marquee-row');
-  const speeds = [0.3, -0.2]; // 第一行向左，第二行向右
+  const speeds = [0.15, -0.1]; // 降低速度，减少位移幅度
 
   let ticking = false;
 
@@ -25,22 +25,21 @@ function initMarquee() {
     const rect = marquee.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // 只在元素可见时计算
     if (rect.bottom < 0 || rect.top > windowHeight) {
       ticking = false;
       return;
     }
 
-    // 计算滚动进度（0~1）
+    // 滚动进度（0~1）
     const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
 
     rows.forEach((row, i) => {
       const track = row.querySelector('.marquee-track');
       if (!track) return;
 
-      // 计算偏移量
-      const maxOffset = track.scrollWidth / 2; // 一半宽度（因为有重复内容）
-      const offset = progress * maxOffset * speeds[i];
+      // 限制最大偏移为视口宽度的 15%，确保内容始终可见
+      const maxOffset = window.innerWidth * 0.15;
+      const offset = (progress - 0.5) * maxOffset * speeds[i] * 2;
 
       track.style.transform = `translateX(${offset}px)`;
     });
@@ -55,7 +54,6 @@ function initMarquee() {
     }
   }, { passive: true });
 
-  // 初始执行一次
   updateMarquee();
 }
 
@@ -68,40 +66,46 @@ function initStickyStack() {
   const cards = stack.querySelectorAll('.stack-card');
   if (!cards.length) return;
 
+  // 设置初始 z-index：越靠后的卡片层级越高
+  cards.forEach((card, i) => {
+    card.style.zIndex = i + 1;
+  });
+
   let ticking = false;
 
   function updateStack() {
-    const stackRect = stack.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-
     cards.forEach((card, index) => {
       const rect = card.getBoundingClientRect();
-      const cardCenter = rect.top + rect.height / 2;
-
-      // 当前卡片已经滚过视口顶部一定距离时，开始缩小
-      const threshold = 120; // 距离顶部多少像素开始效果
+      const threshold = 100;
       const scrollPast = threshold - rect.top;
 
-      if (scrollPast > 0 && index < cards.length - 1) {
-        // 计算缩小进度（0~1）
+      if (index === cards.length - 1) {
+        // 最后一张卡片不参与堆叠
+        card.classList.remove('is-stacking', 'is-hidden');
+        card.style.transform = '';
+        card.style.opacity = '';
+        return;
+      }
+
+      if (scrollPast > 0 && scrollPast < 250) {
+        // 堆叠中：缩小 + 偏移 + 阴影
         const progress = Math.min(scrollPast / 200, 1);
+        const scale = 1 - progress * 0.04;
+        const translateY = -progress * 8;
+        const opacity = 1 - progress * 0.1;
 
         card.classList.add('is-stacking');
         card.classList.remove('is-hidden');
-
-        // 动态缩放
-        const scale = 1 - progress * 0.03; // 从 1 缩到 0.97
-        const opacity = 1 - progress * 0.15; // 从 1 降到 0.85
-        card.style.transform = `scale(${scale})`;
+        card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
         card.style.opacity = opacity;
-      } else if (scrollPast > 300 && index < cards.length - 1) {
+      } else if (scrollPast >= 250) {
         // 完全隐藏
         card.classList.add('is-hidden');
         card.classList.remove('is-stacking');
         card.style.transform = '';
         card.style.opacity = '';
       } else {
-        // 恢复默认
+        // 默认状态
         card.classList.remove('is-stacking', 'is-hidden');
         card.style.transform = '';
         card.style.opacity = '';
@@ -118,7 +122,6 @@ function initStickyStack() {
     }
   }, { passive: true });
 
-  // 初始执行一次
   updateStack();
 }
 

@@ -602,7 +602,9 @@ img {
   position: sticky;
   top: 90px;
   margin-bottom: 60px;
-  transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+              opacity 0.5s ease,
+              box-shadow 0.5s ease;
   will-change: transform, opacity;
 }
 
@@ -610,15 +612,24 @@ img {
   margin-bottom: 0;
 }
 
+/* 堆叠中的卡片：缩小 + 阴影加深 + 微偏移 */
 .stack-card.is-stacking {
-  transform: scale(0.97);
-  opacity: 0.85;
+  transform: scale(0.96) translateY(-8px);
+  opacity: 0.9;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
+/* 完全被遮挡的卡片 */
 .stack-card.is-hidden {
-  transform: scale(0.94);
+  transform: scale(0.93) translateY(-16px);
   opacity: 0;
   pointer-events: none;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+/* 项目卡片添加内阴影增强层次 */
+.project-entry {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .projects-section {
@@ -630,10 +641,11 @@ img {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
-  background: var(--bg);
+  background: var(--bg-card);
   padding: 40px;
   border: 1px solid var(--divider);
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .project-entry.reverse {
