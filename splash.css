@@ -46,6 +46,125 @@ html, body {
   pointer-events: none;
 }
 
+/* 背景几何装饰 */
+.splash-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0;
+  animation: shape-in 1.2s ease forwards;
+}
+
+.shape-circle {
+  border-radius: 50%;
+}
+
+.shape-rect {
+  border-radius: 4px;
+}
+
+/* 圆形1 - 右上角大圆 */
+.shape-1 {
+  width: 220px;
+  height: 220px;
+  background: rgba(214, 40, 40, 0.12);
+  top: -40px;
+  right: 8%;
+  animation-delay: 0.3s;
+}
+
+/* 圆形2 - 左下角中圆 */
+.shape-2 {
+  width: 140px;
+  height: 140px;
+  background: rgba(248, 233, 161, 0.18);
+  bottom: 10%;
+  left: 5%;
+  animation-delay: 0.5s;
+}
+
+/* 长方形1 - 右侧中部 */
+.shape-3 {
+  width: 80px;
+  height: 200px;
+  background: rgba(0, 48, 73, 0.08);
+  top: 25%;
+  right: 15%;
+  transform: rotate(15deg);
+  animation-delay: 0.4s;
+}
+
+/* 圆形3 - 右下角小圆 */
+.shape-4 {
+  width: 60px;
+  height: 60px;
+  background: rgba(214, 40, 40, 0.15);
+  bottom: 20%;
+  right: 25%;
+  animation-delay: 0.7s;
+}
+
+/* 长方形2 - 左上角 */
+.shape-5 {
+  width: 120px;
+  height: 60px;
+  background: rgba(248, 233, 161, 0.14);
+  top: 15%;
+  left: 8%;
+  transform: rotate(-8deg);
+  animation-delay: 0.6s;
+}
+
+/* 圆形4 - 右侧中部小圆 */
+.shape-6 {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 48, 73, 0.12);
+  top: 55%;
+  right: 5%;
+  animation-delay: 0.8s;
+}
+
+/* 长方形3 - 底部右侧 */
+.shape-7 {
+  width: 160px;
+  height: 50px;
+  background: rgba(214, 40, 40, 0.1);
+  bottom: 5%;
+  right: 10%;
+  transform: rotate(5deg);
+  animation-delay: 0.9s;
+}
+
+/* 圆形5 - 顶部中央偏右 */
+.shape-8 {
+  width: 90px;
+  height: 90px;
+  background: rgba(248, 233, 161, 0.16);
+  top: 5%;
+  left: 55%;
+  animation-delay: 0.5s;
+}
+
+@keyframes shape-in {
+  from {
+    opacity: 0;
+    scale: 0.8;
+    translate: 0 20px;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+}
+
 /* 左侧内容区 */
 .splash-body {
   position: relative;
