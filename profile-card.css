@@ -1,0 +1,396 @@
+/* ========================================
+   Profile Card - 3D 倾斜卡片动效
+   移植自 ReactBits，适配画廊风格
+   ======================================== */
+
+:root {
+  --pc-pointer-x: 50%;
+  --pc-pointer-y: 50%;
+  --pc-pointer-from-center: 0;
+  --pc-pointer-from-top: 0.5;
+  --pc-pointer-from-left: 0.5;
+  --pc-card-opacity: 0;
+  --pc-rotate-x: 0deg;
+  --pc-rotate-y: 0deg;
+  --pc-background-x: 50%;
+  --pc-background-y: 50%;
+  /* 画廊风格暖色调光谱 */
+  --pc-sunpillar-1: hsl(28, 80%, 72%);
+  --pc-sunpillar-2: hsl(45, 85%, 70%);
+  --pc-sunpillar-3: hsl(340, 60%, 74%);
+  --pc-sunpillar-4: hsl(200, 70%, 72%);
+  --pc-sunpillar-5: hsl(30, 75%, 68%);
+  --pc-sunpillar-6: hsl(350, 55%, 70%);
+  --pc-card-radius: 16px;
+}
+
+.pc-card-wrapper {
+  perspective: 500px;
+  transform: translate3d(0, 0, 0.1px);
+  position: relative;
+  touch-action: none;
+  width: 100%;
+  max-width: 380px;
+}
+
+/* 背后光晕 */
+.pc-behind {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--pc-card-radius);
+  background: radial-gradient(
+    circle at var(--pc-pointer-x) var(--pc-pointer-y),
+    var(--pc-behind-glow-color, rgba(196, 154, 108, 0.35)) 0%,
+    transparent var(--pc-behind-glow-size, 50%)
+  );
+  filter: blur(40px) saturate(1.1);
+  opacity: calc(0.8 * var(--pc-card-opacity));
+  transition: opacity 300ms ease;
+}
+
+.pc-card-wrapper:hover,
+.pc-card-wrapper.active {
+  --pc-card-opacity: 1;
+}
+
+/* 卡片外壳 */
+.pc-card-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* 卡片主体 */
+.pc-card {
+  aspect-ratio: 0.718;
+  max-height: 500px;
+  width: 100%;
+  display: grid;
+  border-radius: var(--pc-card-radius);
+  position: relative;
+  box-shadow:
+    rgba(0, 0, 0, 0.15) calc((var(--pc-pointer-from-left) * 8px) - 2px)
+    calc((var(--pc-pointer-from-top) * 12px) - 4px) 16px -4px;
+  transition: transform 1s ease;
+  transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+  background: linear-gradient(145deg, #2c2c2e 0%, #1c1c1e 100%);
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.pc-card:hover,
+.pc-card.active {
+  transition: none;
+  transform: translateZ(0) rotateX(var(--pc-rotate-y)) rotateY(var(--pc-rotate-x));
+}
+
+.pc-card-shell.entering .pc-card {
+  transition: transform 180ms ease-out;
+}
+
+/* 内部通用 */
+.pc-card > * {
+  display: grid;
+  grid-area: 1 / -1;
+  border-radius: var(--pc-card-radius);
+  pointer-events: none;
+}
+
+/* 内部层 */
+.pc-inside {
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(145deg, rgba(196, 154, 108, 0.08) 0%, rgba(100, 100, 140, 0.06) 100%);
+}
+
+/* 光泽层 */
+.pc-shine {
+  z-index: 3;
+  background: transparent;
+  mix-blend-mode: color-dodge;
+  transition: filter 0.8s ease;
+  filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
+  animation: pc-holo-bg 18s linear infinite;
+  animation-play-state: running;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      var(--pc-sunpillar-1) 8%,
+      var(--pc-sunpillar-2) 16%,
+      var(--pc-sunpillar-3) 24%,
+      var(--pc-sunpillar-4) 32%,
+      var(--pc-sunpillar-5) 40%,
+      var(--pc-sunpillar-6) 48%,
+      var(--pc-sunpillar-1) 56%
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      #1c1c1e 0%,
+      rgba(150, 140, 130, 0.4) 3.8%,
+      rgba(160, 150, 140, 0.5) 4.5%,
+      rgba(150, 140, 130, 0.4) 5.2%,
+      #1c1c1e 10%,
+      #1c1c1e 12%
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--pc-pointer-x) var(--pc-pointer-y),
+      rgba(0, 0, 0, 0.1) 12%,
+      rgba(0, 0, 0, 0.15) 20%,
+      rgba(0, 0, 0, 0.25) 120%
+    );
+  background-position:
+    0 var(--pc-background-y),
+    var(--pc-background-x) var(--pc-background-y),
+    center;
+  background-blend-mode: color, hard-light;
+  background-size: 500% 500%, 300% 300%, 200% 200%;
+  background-repeat: repeat;
+}
+
+.pc-card:hover .pc-shine,
+.pc-card.active .pc-shine {
+  filter: brightness(0.85) contrast(1.5) saturate(0.5);
+  animation-play-state: paused;
+}
+
+.pc-card:hover .pc-shine::before,
+.pc-card.active .pc-shine::before {
+  opacity: 1;
+}
+
+.pc-shine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--pc-card-radius);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  background-image:
+    linear-gradient(
+      45deg,
+      var(--pc-sunpillar-4),
+      var(--pc-sunpillar-5),
+      var(--pc-sunpillar-6),
+      var(--pc-sunpillar-1),
+      var(--pc-sunpillar-2),
+      var(--pc-sunpillar-3)
+    ),
+    radial-gradient(circle at var(--pc-pointer-x) var(--pc-pointer-y), hsl(0, 0%, 70%) 0%, hsla(0, 0%, 30%, 0.2) 90%);
+  background-size: 250% 250%, 100% 100%;
+  background-position: var(--pc-pointer-x) var(--pc-pointer-y), center;
+  background-blend-mode: color-dodge;
+  filter:
+    brightness(calc(2 - var(--pc-pointer-from-center)))
+    contrast(calc(var(--pc-pointer-from-center) + 2))
+    saturate(calc(0.5 + var(--pc-pointer-from-center)));
+  mix-blend-mode: luminosity;
+}
+
+/* 眩光层 */
+.pc-glare {
+  transform: translate3d(0, 0, 1.1px);
+  z-index: 4;
+  background-image: radial-gradient(
+    farthest-corner circle at var(--pc-pointer-x) var(--pc-pointer-y),
+    hsl(30, 30%, 85%) 12%,
+    hsla(30, 20%, 30%, 0.6) 90%
+  );
+  mix-blend-mode: overlay;
+  filter: brightness(0.8) contrast(1.2);
+}
+
+/* 头像区域 */
+.pc-avatar-content {
+  z-index: 2;
+  overflow: visible;
+}
+
+.pc-avatar-content .pc-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--pc-card-radius);
+  position: absolute;
+  inset: 0;
+  transform: translate3d(
+    calc((var(--pc-pointer-from-left) - 0.5) * 6px),
+    calc((var(--pc-pointer-from-top) - 0.5) * 4px),
+    0
+  );
+  transition: transform 120ms ease-out;
+  will-change: transform;
+}
+
+/* 用户信息浮层 */
+.pc-user-info {
+  position: absolute;
+  --ui-inset: 16px;
+  bottom: var(--ui-inset);
+  left: var(--ui-inset);
+  right: var(--ui-inset);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(253, 252, 248, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: calc(var(--pc-card-radius) - var(--ui-inset) + 4px);
+  padding: 12px 14px;
+  pointer-events: auto;
+}
+
+.pc-user-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pc-mini-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.pc-mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.pc-user-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pc-user-name {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pc-user-status {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1;
+}
+
+.pc-contact-btn {
+  border: 1px solid rgba(196, 154, 108, 0.4);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(196, 154, 108, 0.15);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.pc-contact-btn:hover {
+  background: rgba(196, 154, 108, 0.3);
+  border-color: rgba(196, 154, 108, 0.6);
+  transform: translateY(-1px);
+}
+
+/* 文字标题区域 */
+.pc-content-overlay {
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: translate3d(
+    calc(var(--pc-pointer-from-left) * -4px + 2px),
+    calc(var(--pc-pointer-from-top) * -4px + 2px),
+    0.1px
+  );
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+
+.pc-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3svh, 2rem);
+  font-weight: 600;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pc-card-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  margin: 4px 0 0;
+  color: rgba(196, 154, 108, 0.9);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* 动画 */
+@keyframes pc-holo-bg {
+  0% {
+    background-position:
+      0 var(--pc-background-y),
+      0 0,
+      center;
+  }
+  100% {
+    background-position:
+      0 var(--pc-background-y),
+      90% 90%,
+      center;
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .pc-card-wrapper {
+    max-width: 300px;
+  }
+
+  .pc-card {
+    max-height: 420px;
+  }
+
+  .pc-user-info {
+    --ui-inset: 12px;
+    padding: 10px 12px;
+  }
+
+  .pc-mini-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pc-user-name {
+    font-size: 13px;
+  }
+
+  .pc-contact-btn {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}

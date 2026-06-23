@@ -288,20 +288,7 @@ img {
   flex-direction: column;
   gap: 24px;
   align-items: flex-end;
-}
-
-.hero-visual {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--bg-alt);
-  border-radius: 2px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  color: var(--text-tertiary);
-  font-size: 0.85rem;
-  border: 1px solid var(--divider);
 }
 
 .hero-actions {
