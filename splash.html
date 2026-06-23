@@ -1,252 +1,481 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>周思霞 | Web Frontend Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Roboto Flex 可变字体（支持 wght/wdth/ital 轴） -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="splash.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>周思霞 | Web Frontend Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Roboto Flex 可变字体（支持 wght/wdth/ital 轴） -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="splash.css" />
+  </head>
+  <body>
+    <div class="splash" id="splash">
+      <!-- Aurora 背景 -->
+      <div class="aurora-container" id="auroraBg"></div>
 
-  <div class="splash" id="splash">
+      <!-- 主内容 -->
+      <div class="splash-body">
+        <!-- TextPressure 文字动效容器 -->
+        <div class="tp-container" id="tpContainer1">
+          <h1 class="tp-title" id="tpTitle1"></h1>
+        </div>
+        <div class="tp-container" id="tpContainer2">
+          <h1 class="tp-title" id="tpTitle2"></h1>
+        </div>
 
-    <!-- 主内容 -->
-    <div class="splash-body">
-
-      <!-- TextPressure 文字动效容器 -->
-      <div class="tp-container" id="tpContainer1">
-        <h1 class="tp-title" id="tpTitle1"></h1>
+        <button class="splash-cta" id="enterBtn">
+          <span>Begin exploring</span>
+          <svg
+            class="splash-cta-arrow"
+            viewBox="0 0 32 32"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+          >
+            <path d="M6 16h20M20 10l6 6-6 6" />
+          </svg>
+        </button>
       </div>
-      <div class="tp-container" id="tpContainer2">
-        <h1 class="tp-title" id="tpTitle2"></h1>
+
+      <!-- 右下角信息 -->
+      <div class="splash-footer">
+        <span class="splash-footer-role">WEB FRONTEND DEVELOPER</span>
+        <span class="splash-footer-year">2026</span>
       </div>
 
-      <button class="splash-cta" id="enterBtn">
-        <span>Begin exploring</span>
-        <svg class="splash-cta-arrow" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M6 16h20M20 10l6 6-6 6"/>
-        </svg>
-      </button>
+      <!-- 左下角装饰线 -->
+      <div class="splash-accent"></div>
     </div>
 
-    <!-- 右下角信息 -->
-    <div class="splash-footer">
-      <span class="splash-footer-role">WEB FRONTEND DEVELOPER</span>
-      <span class="splash-footer-year">2026</span>
-    </div>
+    <!-- Aurora 背景动效 -->
+    <script type="module">
+      import { Renderer, Program, Mesh, Color, Triangle } from 'https://esm.sh/ogl@1.0.11';
 
-    <!-- 左下角装饰线 -->
-    <div class="splash-accent"></div>
+      // 原始 vertex shader（完全保留）
+      const VERT = `#version 300 es
+in vec2 position;
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}`;
 
-  </div>
+      // 原始 fragment shader（完全保留，包括 snoise 和 COLOR_RAMP）
+      const FRAG = `#version 300 es
+precision highp float;
 
-  <script>
-    // =============================================
-    // TextPressure - 严格按 ReactBits 原始代码移植
-    // 保留全部动画曲线和延迟参数
-    // 两行独立实例，共享鼠标状态
-    // =============================================
-    (function () {
-      'use strict';
+uniform float uTime;
+uniform float uAmplitude;
+uniform vec3 uColorStops[3];
+uniform vec2 uResolution;
+uniform float uBlend;
 
-      const TEXT_COLOR = '#1C1C1A';
-      const WIDTH = true;
-      const WEIGHT = true;
-      const ITALIC = true;
-      const ALPHA = false;
-      const MIN_FONT_SIZE = 20;
+out vec4 fragColor;
 
-      // 原始工具函数
-      function dist(a, b) {
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        return Math.sqrt(dx * dx + dy * dy);
-      }
+vec3 permute(vec3 x) {
+  return mod(((x * 34.0) + 1.0) * x, 289.0);
+}
 
-      function getAttr(distance, maxDist, minVal, maxVal) {
-        const val = maxVal - Math.abs((maxVal * distance) / maxDist);
-        return Math.max(minVal, val + minVal);
-      }
+float snoise(vec2 v){
+  const vec4 C = vec4(
+      0.211324865405187, 0.366025403784439,
+      -0.577350269189626, 0.024390243902439
+  );
+  vec2 i  = floor(v + dot(v, C.yy));
+  vec2 x0 = v - i + dot(i, C.xx);
+  vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+  i = mod(i, 289.0);
 
-      function debounce(func, delay) {
-        let timeoutId;
-        return function () {
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(func, delay);
+  vec3 p = permute(
+      permute(i.y + vec3(0.0, i1.y, 1.0))
+    + i.x + vec3(0.0, i1.x, 1.0)
+  );
+
+  vec3 m = max(
+      0.5 - vec3(
+          dot(x0, x0),
+          dot(x12.xy, x12.xy),
+          dot(x12.zw, x12.zw)
+      ),
+      0.0
+  );
+  m = m * m;
+  m = m * m;
+
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 ox = floor(x + 0.5);
+  vec3 a0 = x - ox;
+  m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+
+  vec3 g;
+  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
+}
+
+struct ColorStop {
+  vec3 color;
+  float position;
+};
+
+#define COLOR_RAMP(colors, factor, finalColor) {              \
+  int index = 0;                                            \
+  for (int i = 0; i < 2; i++) {                               \
+     ColorStop currentColor = colors[i];                    \
+     bool isInBetween = currentColor.position <= factor;    \
+     index = int(mix(float(index), float(i), float(isInBetween))); \
+  }                                                         \
+  ColorStop currentColor = colors[index];                   \
+  ColorStop nextColor = colors[index + 1];                  \
+  float range = nextColor.position - currentColor.position; \
+  float lerpFactor = (factor - currentColor.position) / range; \
+  finalColor = mix(currentColor.color, nextColor.color, lerpFactor); \
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / uResolution;
+
+  ColorStop colors[3];
+  colors[0] = ColorStop(uColorStops[0], 0.0);
+  colors[1] = ColorStop(uColorStops[1], 0.5);
+  colors[2] = ColorStop(uColorStops[2], 1.0);
+
+  vec3 rampColor;
+  COLOR_RAMP(colors, uv.x, rampColor);
+
+  float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
+  height = exp(height);
+  height = (uv.y * 2.0 - height + 0.2);
+  float intensity = 0.6 * height;
+
+  float midPoint = 0.20;
+  float auroraAlpha = smoothstep(midPoint - uBlend * 0.5, midPoint + uBlend * 0.5, intensity);
+
+  vec3 auroraColor = intensity * rampColor;
+
+  fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
+}`;
+
+      // 初始化 Aurora
+      const ctn = document.getElementById('auroraBg');
+      if (ctn) {
+        const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true });
+        const gl = renderer.gl;
+        gl.clearColor(0, 0, 0, 0);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        gl.canvas.style.backgroundColor = 'transparent';
+        ctn.appendChild(gl.canvas);
+
+        const geometry = new Triangle(gl);
+        if (geometry.attributes.uv) delete geometry.attributes.uv;
+
+        // 配色：琥珀金系（匹配画廊风格）
+        const colorStops = ['#C49A6C', '#E8D5B7', '#8B6914'];
+        const colorStopsArray = colorStops.map(hex => {
+          const c = new Color(hex);
+          return [c.r, c.g, c.b];
+        });
+
+        // 原始参数（保留默认值）
+        const amplitude = 1.0;
+        const blend = 0.5;
+        const speed = 1.0;
+
+        const program = new Program(gl, {
+          vertex: VERT,
+          fragment: FRAG,
+          uniforms: {
+            uTime: { value: 0 },
+            uAmplitude: { value: amplitude },
+            uColorStops: { value: colorStopsArray },
+            uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+            uBlend: { value: blend }
+          }
+        });
+
+        const mesh = new Mesh(gl, { geometry, program });
+
+        function resize() {
+          const width = ctn.offsetWidth;
+          const height = ctn.offsetHeight;
+          renderer.setSize(width, height);
+          program.uniforms.uResolution.value = [width, height];
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // 原始动画循环
+        let animateId;
+        const update = t => {
+          animateId = requestAnimationFrame(update);
+          program.uniforms.uTime.value = t * 0.01 * speed * 0.1;
+          program.uniforms.uAmplitude.value = amplitude;
+          program.uniforms.uBlend.value = blend;
+          program.uniforms.uColorStops.value = colorStopsArray;
+          renderer.render({ scene: mesh });
         };
-      }
+        animateId = requestAnimationFrame(update);
 
-      // 共享鼠标状态
-      const mouseRef = { x: 0, y: 0 };
-      const cursorRef = { x: 0, y: 0 };
-      const targetRef = { x: 0, y: 0 };  // 动画实际跟随的目标
-      let isHovering = false;
-
-      window.addEventListener('mousemove', function (e) {
-        cursorRef.x = e.clientX;
-        cursorRef.y = e.clientY;
-      });
-      window.addEventListener('touchmove', function (e) {
-        const t = e.touches[0];
-        cursorRef.x = t.clientX;
-        cursorRef.y = t.clientY;
-      }, { passive: true });
-
-      // 初始化鼠标位置
-      const initRect = document.getElementById('tpContainer1').getBoundingClientRect();
-      const initCx = initRect.left + initRect.width / 2;
-      const initCy = initRect.top + initRect.height / 2;
-      mouseRef.x = initCx;
-      mouseRef.y = initCy;
-      cursorRef.x = initCx;
-      cursorRef.y = initCy;
-      targetRef.x = initCx;
-      targetRef.y = initCy;
-
-      // 检测鼠标是否在文字区域内
-      function checkHover() {
-        const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
-        const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
-        const padding = 40;
-        const top = Math.min(r1.top, r2.top) - padding;
-        const bottom = Math.max(r1.bottom, r2.bottom) + padding;
-        const left = Math.min(r1.left, r2.left) - padding;
-        const right = Math.max(r1.right, r2.right) + padding;
-        isHovering = (cursorRef.x >= left && cursorRef.x <= right && cursorRef.y >= top && cursorRef.y <= bottom);
-      }
-
-      window.addEventListener('mousemove', checkHover);
-      window.addEventListener('touchmove', checkHover, { passive: true });
-
-      // 创建单行 TextPressure
-      function createLine(containerId, titleId, text) {
-        const container = document.getElementById(containerId);
-        const title = document.getElementById(titleId);
-        const chars = text.split('');
-        const spansRef = [];
-
-        chars.forEach(function (char) {
-          const span = document.createElement('span');
-          span.textContent = char;
-          span.setAttribute('data-char', char);
-          span.style.display = 'inline-block';
-          span.style.color = TEXT_COLOR;
-          title.appendChild(span);
-          spansRef.push(span);
+        // 清理
+        window.addEventListener('beforeunload', () => {
+          cancelAnimationFrame(animateId);
+          window.removeEventListener('resize', resize);
+          gl.getExtension('WEBGL_lose_context')?.loseContext();
         });
+      }
+    </script>
 
-        function setSize() {
-          if (!container || !title) return;
-          const containerW = container.getBoundingClientRect().width;
-          let newFontSize = containerW / (chars.length / 2);
-          newFontSize = Math.max(newFontSize, MIN_FONT_SIZE);
-          title.style.fontSize = newFontSize + 'px';
+    <script>
+      // =============================================
+      // TextPressure - 严格按 ReactBits 原始代码移植
+      // 保留全部动画曲线和延迟参数
+      // 两行独立实例，共享鼠标状态
+      // =============================================
+      (function () {
+        "use strict";
+
+        const TEXT_COLOR = "#1C1C1A";
+        const WIDTH = true;
+        const WEIGHT = true;
+        const ITALIC = true;
+        const ALPHA = false;
+        const MIN_FONT_SIZE = 20;
+
+        // 原始工具函数
+        function dist(a, b) {
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          return Math.sqrt(dx * dx + dy * dy);
         }
 
-        const debouncedSetSize = debounce(setSize, 100);
-        debouncedSetSize();
-        window.addEventListener('resize', debouncedSetSize);
+        function getAttr(distance, maxDist, minVal, maxVal) {
+          const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+          return Math.max(minVal, val + minVal);
+        }
 
-        return { title: title, spansRef: spansRef };
-      }
+        function debounce(func, delay) {
+          let timeoutId;
+          return function () {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(func, delay);
+          };
+        }
 
-      // 创建两行
-      const line1 = createLine('tpContainer1', 'tpTitle1', 'A PORTAL TO THE WORK OF');
-      const line2 = createLine('tpContainer2', 'tpTitle2', 'ZHOU SI XIA');
+        // 共享鼠标状态
+        const mouseRef = { x: 0, y: 0 };
+        const cursorRef = { x: 0, y: 0 };
+        const targetRef = { x: 0, y: 0 }; // 动画实际跟随的目标
+        let isHovering = false;
 
-      // 默认状态值
-      const DEFAULT_WDTH = 100;
-      const DEFAULT_WGHT = 100;
-      const DEFAULT_ITAL = 0;
-      const LERP = 15;  // 原始 lerp 因子
+        window.addEventListener("mousemove", function (e) {
+          cursorRef.x = e.clientX;
+          cursorRef.y = e.clientY;
+        });
+        window.addEventListener(
+          "touchmove",
+          function (e) {
+            const t = e.touches[0];
+            cursorRef.x = t.clientX;
+            cursorRef.y = t.clientY;
+          },
+          { passive: true },
+        );
 
-      // 每个 span 的当前插值状态
-      function createSpanState() {
-        return { wdth: DEFAULT_WDTH, wght: DEFAULT_WGHT, ital: DEFAULT_ITAL };
-      }
+        // 初始化鼠标位置
+        const initRect = document
+          .getElementById("tpContainer1")
+          .getBoundingClientRect();
+        const initCx = initRect.left + initRect.width / 2;
+        const initCy = initRect.top + initRect.height / 2;
+        mouseRef.x = initCx;
+        mouseRef.y = initCy;
+        cursorRef.x = initCx;
+        cursorRef.y = initCy;
+        targetRef.x = initCx;
+        targetRef.y = initCy;
 
-      // 初始化所有 span 的状态
-      function initSpanStates(line) {
-        line.states = line.spansRef.map(function () { return createSpanState(); });
-      }
+        // 检测鼠标是否在文字区域内
+        function checkHover() {
+          const r1 = document
+            .getElementById("tpContainer1")
+            .getBoundingClientRect();
+          const r2 = document
+            .getElementById("tpContainer2")
+            .getBoundingClientRect();
+          const padding = 40;
+          const top = Math.min(r1.top, r2.top) - padding;
+          const bottom = Math.max(r1.bottom, r2.bottom) + padding;
+          const left = Math.min(r1.left, r2.left) - padding;
+          const right = Math.max(r1.right, r2.right) + padding;
+          isHovering =
+            cursorRef.x >= left &&
+            cursorRef.x <= right &&
+            cursorRef.y >= top &&
+            cursorRef.y <= bottom;
+        }
 
-      initSpanStates(line1);
-      initSpanStates(line2);
+        window.addEventListener("mousemove", checkHover);
+        window.addEventListener("touchmove", checkHover, { passive: true });
 
-      // 原始动画循环
-      function animate() {
-        if (isHovering) {
-          // 悬停：按原始逻辑计算目标值
+        // 创建单行 TextPressure
+        function createLine(containerId, titleId, text) {
+          const container = document.getElementById(containerId);
+          const title = document.getElementById(titleId);
+          const chars = text.split("");
+          const spansRef = [];
+
+          chars.forEach(function (char) {
+            const span = document.createElement("span");
+            span.textContent = char;
+            span.setAttribute("data-char", char);
+            span.style.display = "inline-block";
+            span.style.color = TEXT_COLOR;
+            title.appendChild(span);
+            spansRef.push(span);
+          });
+
+          function setSize() {
+            if (!container || !title) return;
+            const containerW = container.getBoundingClientRect().width;
+            let newFontSize = containerW / (chars.length / 2);
+            newFontSize = Math.max(newFontSize, MIN_FONT_SIZE);
+            title.style.fontSize = newFontSize + "px";
+          }
+
+          const debouncedSetSize = debounce(setSize, 100);
+          debouncedSetSize();
+          window.addEventListener("resize", debouncedSetSize);
+
+          return { title: title, spansRef: spansRef };
+        }
+
+        // 创建两行
+        const line1 = createLine(
+          "tpContainer1",
+          "tpTitle1",
+          "A PORTAL TO THE WORK OF",
+        );
+        const line2 = createLine("tpContainer2", "tpTitle2", "ZHOU SI XIA");
+
+        // 默认状态值
+        const DEFAULT_WDTH = 100;
+        const DEFAULT_WGHT = 200;
+        const DEFAULT_ITAL = 0;
+        const LERP = 15; // 原始 lerp 因子
+
+        // 每个 span 的当前插值状态
+        function createSpanState() {
+          return { wdth: DEFAULT_WDTH, wght: DEFAULT_WGHT, ital: DEFAULT_ITAL };
+        }
+
+        // 初始化所有 span 的状态
+        function initSpanStates(line) {
+          line.states = line.spansRef.map(function () {
+            return createSpanState();
+          });
+        }
+
+        initSpanStates(line1);
+        initSpanStates(line2);
+
+        // 原始动画循环
+        function animate() {
+          if (isHovering) {
+            // 悬停：按原始逻辑计算目标值
+            [line1, line2].forEach(function (line) {
+              if (!line.title) return;
+              const titleRect = line.title.getBoundingClientRect();
+              const maxDist = titleRect.width / 2;
+
+              line.spansRef.forEach(function (span, i) {
+                if (!span) return;
+                const rect = span.getBoundingClientRect();
+                const charCenter = {
+                  x: rect.x + rect.width / 2,
+                  y: rect.y + rect.height / 2,
+                };
+                const d = dist(mouseRef, charCenter);
+
+                const targetWdth = WIDTH
+                  ? Math.floor(getAttr(d, maxDist, 5, 200))
+                  : DEFAULT_WDTH;
+                const targetWght = WEIGHT
+                  ? Math.floor(getAttr(d, maxDist, 100, 900))
+                  : DEFAULT_WGHT;
+                const targetItal = ITALIC
+                  ? parseFloat(getAttr(d, maxDist, 0, 1).toFixed(2))
+                  : DEFAULT_ITAL;
+
+                // 插值到目标
+                line.states[i].wdth +=
+                  (targetWdth - line.states[i].wdth) / LERP;
+                line.states[i].wght +=
+                  (targetWght - line.states[i].wght) / LERP;
+                line.states[i].ital +=
+                  (targetItal - line.states[i].ital) / LERP;
+              });
+            });
+
+            // 跟随鼠标
+            mouseRef.x += (cursorRef.x - mouseRef.x) / LERP;
+            mouseRef.y += (cursorRef.y - mouseRef.y) / LERP;
+          } else {
+            // 离开：所有 span 平滑恢复到默认值
+            [line1, line2].forEach(function (line) {
+              line.states.forEach(function (state) {
+                state.wdth += (DEFAULT_WDTH - state.wdth) / LERP;
+                state.wght += (DEFAULT_WGHT - state.wght) / LERP;
+                state.ital += (DEFAULT_ITAL - state.ital) / LERP;
+              });
+            });
+          }
+
+          // 应用当前状态到 DOM
           [line1, line2].forEach(function (line) {
-            if (!line.title) return;
-            const titleRect = line.title.getBoundingClientRect();
-            const maxDist = titleRect.width / 2;
-
             line.spansRef.forEach(function (span, i) {
-              if (!span) return;
-              const rect = span.getBoundingClientRect();
-              const charCenter = {
-                x: rect.x + rect.width / 2,
-                y: rect.y + rect.height / 2
-              };
-              const d = dist(mouseRef, charCenter);
-
-              const targetWdth = WIDTH ? Math.floor(getAttr(d, maxDist, 5, 200)) : DEFAULT_WDTH;
-              const targetWght = WEIGHT ? Math.floor(getAttr(d, maxDist, 100, 900)) : DEFAULT_WGHT;
-              const targetItal = ITALIC ? parseFloat(getAttr(d, maxDist, 0, 1).toFixed(2)) : DEFAULT_ITAL;
-
-              // 插值到目标
-              line.states[i].wdth += (targetWdth - line.states[i].wdth) / LERP;
-              line.states[i].wght += (targetWght - line.states[i].wght) / LERP;
-              line.states[i].ital += (targetItal - line.states[i].ital) / LERP;
+              if (!span || !line.states[i]) return;
+              const s = line.states[i];
+              const settings =
+                "'wght' " +
+                Math.round(s.wght) +
+                ", 'wdth' " +
+                Math.round(s.wdth) +
+                ", 'ital' " +
+                s.ital.toFixed(2);
+              if (span.style.fontVariationSettings !== settings) {
+                span.style.fontVariationSettings = settings;
+              }
             });
           });
 
-          // 跟随鼠标
-          mouseRef.x += (cursorRef.x - mouseRef.x) / LERP;
-          mouseRef.y += (cursorRef.y - mouseRef.y) / LERP;
-        } else {
-          // 离开：所有 span 平滑恢复到默认值
-          [line1, line2].forEach(function (line) {
-            line.states.forEach(function (state) {
-              state.wdth += (DEFAULT_WDTH - state.wdth) / LERP;
-              state.wght += (DEFAULT_WGHT - state.wght) / LERP;
-              state.ital += (DEFAULT_ITAL - state.ital) / LERP;
-            });
-          });
+          requestAnimationFrame(animate);
         }
-
-        // 应用当前状态到 DOM
-        [line1, line2].forEach(function (line) {
-          line.spansRef.forEach(function (span, i) {
-            if (!span || !line.states[i]) return;
-            const s = line.states[i];
-            const settings = "'wght' " + Math.round(s.wght) + ", 'wdth' " + Math.round(s.wdth) + ", 'ital' " + s.ital.toFixed(2);
-            if (span.style.fontVariationSettings !== settings) {
-              span.style.fontVariationSettings = settings;
-            }
-          });
-        });
 
         requestAnimationFrame(animate);
-      }
+      })();
+    </script>
 
-      requestAnimationFrame(animate);
-    })();
-  </script>
-
-  <!-- 过渡 -->
-  <script>
-    document.getElementById('enterBtn').addEventListener('click', function () {
-      document.getElementById('splash').classList.add('fade-out');
-      setTimeout(function () { window.location.href = 'index.html'; }, 1000);
-    });
-  </script>
-
-</body>
+    <!-- 过渡 -->
+    <script>
+      document
+        .getElementById("enterBtn")
+        .addEventListener("click", function () {
+          document.getElementById("splash").classList.add("fade-out");
+          setTimeout(function () {
+            window.location.href = "index.html";
+          }, 1000);
+        });
+    </script>
+  </body>
 </html>

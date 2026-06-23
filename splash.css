@@ -12,6 +12,20 @@ html, body {
   background: #FDFCF8;
 }
 
+/* Aurora 背景 */
+.aurora-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aurora-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* 整页容器 */
 .splash {
   position: fixed;
@@ -37,6 +51,11 @@ html, body {
   flex-direction: column;
   justify-content: center;
   padding: 0 10%;
+  pointer-events: none;
+}
+
+.splash-body * {
+  pointer-events: auto;
 }
 
 /* TextPressure 文字动效容器 */
