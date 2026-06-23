@@ -84,7 +84,8 @@
       // 共享鼠标状态
       const mouseRef = { x: 0, y: 0 };
       const cursorRef = { x: 0, y: 0 };
-      let isHovering = false;  // 鼠标是否在文字区域内
+      const targetRef = { x: 0, y: 0 };  // 动画实际跟随的目标
+      let isHovering = false;
 
       window.addEventListener('mousemove', function (e) {
         cursorRef.x = e.clientX;
@@ -98,23 +99,25 @@
 
       // 初始化鼠标位置
       const initRect = document.getElementById('tpContainer1').getBoundingClientRect();
-      mouseRef.x = initRect.left + initRect.width / 2;
-      mouseRef.y = initRect.top + initRect.height / 2;
-      cursorRef.x = mouseRef.x;
-      cursorRef.y = mouseRef.y;
+      const initCx = initRect.left + initRect.width / 2;
+      const initCy = initRect.top + initRect.height / 2;
+      mouseRef.x = initCx;
+      mouseRef.y = initCy;
+      cursorRef.x = initCx;
+      cursorRef.y = initCy;
+      targetRef.x = initCx;
+      targetRef.y = initCy;
 
-      // 检测鼠标是否在文字区域内（两个容器的合并区域）
+      // 检测鼠标是否在文字区域内
       function checkHover() {
         const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
         const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
-        const padding = 40;  // 扩大检测范围
+        const padding = 40;
         const top = Math.min(r1.top, r2.top) - padding;
         const bottom = Math.max(r1.bottom, r2.bottom) + padding;
         const left = Math.min(r1.left, r2.left) - padding;
         const right = Math.max(r1.right, r2.right) + padding;
-        const cx = cursorRef.x;
-        const cy = cursorRef.y;
-        isHovering = (cx >= left && cx <= right && cy >= top && cy <= bottom);
+        isHovering = (cursorRef.x >= left && cursorRef.x <= right && cursorRef.y >= top && cursorRef.y <= bottom);
       }
 
       window.addEventListener('mousemove', checkHover);
@@ -157,20 +160,20 @@
       const line2 = createLine('tpContainer2', 'tpTitle2', 'ZHOU SI XIA');
 
       // 原始动画循环（保留 lerp 因子 15）
-      // 鼠标移开时，虚拟鼠标滑向文字中心，字符自然恢复
       function animate() {
-        if (!isHovering) {
-          // 目标：第一行文字的中心
+        // 决定动画跟随的目标：悬停时跟随鼠标，离开时滑向文字中心
+        if (isHovering) {
+          targetRef.x = cursorRef.x;
+          targetRef.y = cursorRef.y;
+        } else {
           const r1 = document.getElementById('tpContainer1').getBoundingClientRect();
           const r2 = document.getElementById('tpContainer2').getBoundingClientRect();
-          const centerX = (r1.left + r1.right) / 2;
-          const centerY = (r1.top + r2.bottom) / 2;
-          cursorRef.x = centerX;
-          cursorRef.y = centerY;
+          targetRef.x = (r1.left + r1.right) / 2;
+          targetRef.y = (r1.top + r2.bottom) / 2;
         }
 
-        mouseRef.x += (cursorRef.x - mouseRef.x) / 15;
-        mouseRef.y += (cursorRef.y - mouseRef.y) / 15;
+        mouseRef.x += (targetRef.x - mouseRef.x) / 15;
+        mouseRef.y += (targetRef.y - mouseRef.y) / 15;
 
         [line1, line2].forEach(function (line) {
           if (!line.title) return;
