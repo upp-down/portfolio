@@ -190,7 +190,7 @@ void main(){
         // 配色：暖黄橙色系（匹配 Splash 风格）
         const color1 = '#F8E9A1';  // 暖黄
         const color2 = '#FF9A76';  // 珊瑚橙
-        const color3 = '#FFECD2';  // 奶油白
+        const color3 = '#E8D5B7';  // 低饱和淡黄（替代亮白色）
 
         // 原始参数（完全保留默认值）
         const program = new Program(gl, {
@@ -212,7 +212,7 @@ void main(){
             uGrainAmount:    { value: 0.1 },
             uGrainScale:     { value: 2.0 },
             uGrainAnimated:  { value: 0.0 },
-            uContrast:       { value: 1.5 },
+            uContrast:       { value: 1.2 },
             uGamma:          { value: 1.0 },
             uSaturation:     { value: 1.0 },
             uCenterOffset:   { value: new Float32Array([0, 0]) },
