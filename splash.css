@@ -1,0 +1,207 @@
+/* ========================================
+   Splash Page - 画廊入口
+   灵感：Pieter Lessing / Duda Moraes / James Parker
+   ======================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #FDFCF8;
+}
+
+/* 整页容器 */
+.splash {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* RippleGrid 背景 */
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.splash-bg canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 遮罩 */
+.splash-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(253, 252, 248, 0.82);
+  pointer-events: none;
+}
+
+/* 左侧内容区 */
+.splash-body {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10%;
+}
+
+/* 主句 */
+.splash-headline {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 300;
+  color: #1C1C1A;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  max-width: 600px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: splash-in 1s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.splash-headline em {
+  font-style: normal;
+  font-weight: 500;
+  color: #C49A6C;
+}
+
+/* 按钮 */
+.splash-cta {
+  margin-top: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #1C1C1A;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: splash-in 0.9s ease forwards;
+  animation-delay: 0.8s;
+  transition: gap 0.3s ease;
+}
+
+.splash-cta:hover {
+  gap: 18px;
+}
+
+.splash-cta-line {
+  width: 40px;
+  height: 1px;
+  background: #C49A6C;
+  transition: width 0.3s ease;
+}
+
+.splash-cta:hover .splash-cta-line {
+  width: 56px;
+}
+
+.splash-cta-arrow {
+  width: 18px;
+  height: 18px;
+  color: #C49A6C;
+  transition: transform 0.3s ease;
+}
+
+.splash-cta:hover .splash-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* 右下角信息 */
+.splash-footer {
+  position: absolute;
+  bottom: 40px;
+  right: 6%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  opacity: 0;
+  animation: splash-in 0.8s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.splash-footer-role {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #9A9A92;
+}
+
+.splash-footer-year {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: #B0B0A8;
+}
+
+/* 左下角装饰 */
+.splash-accent {
+  position: absolute;
+  bottom: 40px;
+  left: 10%;
+  z-index: 2;
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, #C49A6C, transparent);
+  opacity: 0;
+  animation: splash-in 0.8s ease forwards;
+  animation-delay: 1.4s;
+}
+
+/* 动画 */
+@keyframes splash-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .splash-body {
+    padding: 0 8%;
+  }
+
+  .splash-headline {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+
+  .splash-footer {
+    bottom: 32px;
+    right: 8%;
+  }
+
+  .splash-accent {
+    bottom: 32px;
+    left: 8%;
+    height: 40px;
+  }
+}
