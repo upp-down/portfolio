@@ -104,13 +104,13 @@
   background: linear-gradient(145deg, rgba(196, 154, 108, 0.08) 0%, rgba(100, 100, 140, 0.06) 100%);
 }
 
-/* 光泽层 */
+/* 光泽层 - 铺满整张卡片 */
 .pc-shine {
   z-index: 3;
   background: transparent;
   mix-blend-mode: color-dodge;
   transition: filter 0.8s ease;
-  filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
+  filter: brightness(0.8) contrast(1.4) saturate(0.4) opacity(0.7);
   animation: pc-holo-bg 18s linear infinite;
   animation-play-state: running;
   background-image:
@@ -150,7 +150,7 @@
 
 .pc-card:hover .pc-shine,
 .pc-card.active .pc-shine {
-  filter: brightness(0.85) contrast(1.5) saturate(0.5);
+  filter: brightness(0.9) contrast(1.5) saturate(0.6) opacity(0.85);
   animation-play-state: paused;
 }
 
@@ -187,17 +187,9 @@
   mix-blend-mode: luminosity;
 }
 
-/* 眩光层 */
+/* 眩光层 - 已禁用（太刺眼） */
 .pc-glare {
-  transform: translate3d(0, 0, 1.1px);
-  z-index: 4;
-  background-image: radial-gradient(
-    farthest-corner circle at var(--pc-pointer-x) var(--pc-pointer-y),
-    hsl(30, 30%, 85%) 12%,
-    hsla(30, 20%, 30%, 0.6) 90%
-  );
-  mix-blend-mode: overlay;
-  filter: brightness(0.8) contrast(1.2);
+  display: none;
 }
 
 /* 头像区域 */
