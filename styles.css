@@ -638,11 +638,7 @@ img {
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
 }
 
-/* 项目卡片添加内阴影增强层次 */
-.project-entry {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
+/* 项目卡片 */
 .projects-section {
   background: var(--bg);
 }
@@ -656,7 +652,6 @@ img {
   padding: 40px;
   border: 1px solid var(--divider);
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .project-entry.reverse {
@@ -679,7 +674,6 @@ img {
 
 .project-entry:hover .project-cover-wrap {
   border-color: var(--accent);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
 }
 
 .project-cover {
