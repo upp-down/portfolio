@@ -10,51 +10,97 @@ const navbar = document.getElementById('navbar');
 const navLinkItems = document.querySelectorAll('.nav-link');
 const fadeElements = document.querySelectorAll('.fade-up');
 
-// ===== P1: 滚动驱动横向移动（技能标签带） =====
+// ===== P1: 鼠标悬停标签行时，滚轮横向滚动 =====
 
 function initMarquee() {
   const marquee = document.getElementById('skillsMarquee');
   if (!marquee) return;
 
-  const rows = marquee.querySelectorAll('.marquee-row');
-  const speeds = [0.15, -0.1]; // 降低速度，减少位移幅度
+  const tracks = marquee.querySelectorAll('.marquee-track');
+  if (!tracks.length) return;
 
-  let ticking = false;
+  // 每行的当前偏移量
+  const offsets = [0, 0];
+  const targetOffsets = [0, 0];
+  let animating = false;
 
-  function updateMarquee() {
-    const rect = marquee.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-
-    if (rect.bottom < 0 || rect.top > windowHeight) {
-      ticking = false;
-      return;
-    }
-
-    // 滚动进度（0~1）
-    const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-
-    rows.forEach((row, i) => {
-      const track = row.querySelector('.marquee-track');
-      if (!track) return;
-
-      // 限制最大偏移为视口宽度的 15%，确保内容始终可见
-      const maxOffset = window.innerWidth * 0.15;
-      const offset = (progress - 0.5) * maxOffset * speeds[i] * 2;
-
-      track.style.transform = `translateX(${offset}px)`;
-    });
-
-    ticking = false;
+  // 计算每行最大可滚动距离
+  function getMaxScroll(track) {
+    return Math.max(0, track.scrollWidth - marquee.clientWidth);
   }
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateMarquee);
-      ticking = true;
+  // 惯性动画
+  function animate() {
+    let needsUpdate = false;
+
+    tracks.forEach((track, i) => {
+      const diff = targetOffsets[i] - offsets[i];
+      if (Math.abs(diff) > 0.5) {
+        offsets[i] += diff * 0.12;
+        track.style.transform = `translateX(${-offsets[i]}px)`;
+        needsUpdate = true;
+      } else {
+        offsets[i] = targetOffsets[i];
+        track.style.transform = `translateX(${-offsets[i]}px)`;
+      }
+    });
+
+    if (needsUpdate) {
+      requestAnimationFrame(animate);
+    } else {
+      animating = false;
     }
+  }
+
+  function startAnimate() {
+    if (!animating) {
+      animating = true;
+      animate();
+    }
+  }
+
+  // 滚轮事件：鼠标悬停在标签行上时，横向滚动
+  marquee.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    const delta = e.deltaY || e.deltaX;
+
+    tracks.forEach((track, i) => {
+      const max = getMaxScroll(track);
+      // 两行反向滚动
+      const direction = i === 0 ? 1 : -1;
+      targetOffsets[i] = Math.max(0, Math.min(max, targetOffsets[i] + delta * direction));
+    });
+
+    startAnimate();
+  }, { passive: false });
+
+  // 触摸支持（移动端）
+  let touchStartX = 0;
+  let touchStartOffsets = [0, 0];
+
+  marquee.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartOffsets = [...targetOffsets];
   }, { passive: true });
 
-  updateMarquee();
+  marquee.addEventListener('touchmove', (e) => {
+    const delta = touchStartX - e.touches[0].clientX;
+
+    tracks.forEach((track, i) => {
+      const max = getMaxScroll(track);
+      const direction = i === 0 ? 1 : -1;
+      targetOffsets[i] = Math.max(0, Math.min(max, touchStartOffsets[i] + delta * direction));
+    });
+
+    startAnimate();
+  }, { passive: true });
+
+  // 添加提示：鼠标悬停时显示可横向滚动
+  marquee.style.cursor = 'grab';
+  marquee.addEventListener('mouseenter', () => { marquee.style.cursor = 'grab'; });
+  marquee.addEventListener('mousedown', () => { marquee.style.cursor = 'grabbing'; });
+  marquee.addEventListener('mouseup', () => { marquee.style.cursor = 'grab'; });
 }
 
 // ===== P2: 粘性堆叠卡片 =====

@@ -562,6 +562,30 @@ img {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  cursor: grab;
+  position: relative;
+}
+
+.skills-marquee:active {
+  cursor: grabbing;
+}
+
+/* 悬停时显示左右箭头提示 */
+.skills-marquee::after {
+  content: '← →';
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  letter-spacing: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.skills-marquee:hover::after {
+  opacity: 0.5;
 }
 
 .marquee-row {
