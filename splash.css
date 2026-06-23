@@ -281,19 +281,29 @@ html, body {
   transform: translateX(6px);
 }
 
-/* 右下角信息 */
+/* 底部信息 */
 .splash-footer {
   position: absolute;
   bottom: 40px;
-  right: 6%;
+  left: 0;
+  right: 0;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 8%;
   opacity: 0;
   animation: splash-in 0.8s ease forwards;
   animation-delay: 1.2s;
+}
+
+.splash-footer-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .splash-footer-role {
@@ -303,6 +313,7 @@ html, body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #9A9A92;
+  white-space: nowrap;
 }
 
 .splash-footer-year {
@@ -311,6 +322,31 @@ html, body {
   font-weight: 300;
   letter-spacing: 0.2em;
   color: #B0B0A8;
+}
+
+/* 渐细横线 */
+.splash-footer-line {
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
+  position: relative;
+}
+
+.splash-footer-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.splash-footer-line-left::before {
+  background: linear-gradient(to left, rgba(214, 40, 40, 0.3), transparent);
+}
+
+.splash-footer-line-right::before {
+  background: linear-gradient(to right, rgba(0, 48, 73, 0.3), transparent);
 }
 
 /* 左下角装饰 */
